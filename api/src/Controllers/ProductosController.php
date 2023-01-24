@@ -16,4 +16,11 @@ class ProductosController
         $response->getBody()->write(GenericResponse::obtain(true,'Todos los productos',$productos,));
         return $response;
     }
+
+    //Crea un nuevo producto
+    public function nuevoProducto(Request $request,Response $response){
+        
+        return $response;
+    }
+
 }
