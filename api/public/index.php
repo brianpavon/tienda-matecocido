@@ -16,10 +16,16 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 //Controllers
 use Controllers\ProductosController;
+use Controllers\UsuariosController;
+use Controllers\AuthController;
+use Controllers\CategoriasController;
+use Controllers\ColoresController;
 
+//Crea la conexión a la DB
 $conn = new Database();
 $app = AppFactory::create();
 
+//establecemos la url base
 $app->setBasePath('/tienda-matecocido/api/public');//url local
 
 //para ver si web api funciona
@@ -29,15 +35,39 @@ $app->get('/', function (Request $request, Response $response, array $args) {
 });
 
 /**
+ * Rutas para login y crear usuarios
+ */
+
+//$app->get('/auth/login',ProductosController::class . ":obtenerProductos");
+$app->group('/auth',function (RouteCollectorProxy $group){
+    $group->post('/login',AuthController::class . ":login");
+    $group->post('/crear-usuario',AuthController::class . ":crearUsuario");
+});
+
+
+/**
  * Rutas para productos
  */
 $app->group('/productos',function (RouteCollectorProxy $group){
     $group->get('[/]',ProductosController::class . ":obtenerProductos");
+    $group->post('/nuevo-producto',ProductosController::class . ":nuevoProducto");
 });
 
 /**
  * Rutas para Categorias
  */
+$app->group('/categorias',function (RouteCollectorProxy $group){
+    $group->get('[/]',CategoriasController::class . ":obtenerCategorias");
+    $group->post('/nueva-categoria',CategoriasController::class . ":nuevaCategoria");
+});
+
+/**
+ * Rutas para colores
+ */
+$app->group('/colores',function(RouteCollectorProxy $group){
+    $group->get('[/]',ColoresController::class . ":obtenerColores");
+    $group->post('/nuevo-color',ColoresController::class . ":nuevoColor");
+});
 
 
 /**
