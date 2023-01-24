@@ -18,6 +18,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Controllers\ProductosController;
 use Controllers\UsuariosController;
 use Controllers\AuthController;
+use Controllers\CategoriasController;
 
 //Crea la conexión a la DB
 $conn = new Database();
@@ -55,8 +56,8 @@ $app->group('/productos',function (RouteCollectorProxy $group){
  * Rutas para Categorias
  */
 $app->group('/categorias',function (RouteCollectorProxy $group){
-    $group->get('[/]',ProductosController::class . ":obtenerProductos");
-    $group->post('/nueva-categoria',ProductosController::class . ":nuevoProducto");
+    $group->get('[/]',CategoriasController::class . ":obtenerCategorias");
+    $group->post('/nueva-categoria',CategoriasController::class . ":nuevaCategoria");
 });
 
 
