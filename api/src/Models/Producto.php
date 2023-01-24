@@ -14,5 +14,6 @@ class Producto extends Model
         'descripcion',
         'precio'
     ];
+    
     protected $primaryKey = 'id_prod';
 }
