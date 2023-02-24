@@ -1,0 +1,25 @@
+{
+    "name": "brian/api",
+    "autoload": {
+        "psr-4": {
+            "Middlewares\\": "src/Middlewares",
+            "Config\\": "Config",
+            "Controllers\\": "src/Controllers",
+            "Components\\": "src/Components",
+            "Models\\": "src/Models"
+        }
+    },
+    "authors": [
+        {
+            "name": "Brian Pavon",
+            "email": "brian.pavon@hotmail.com"
+        }
+    ],
+    "require": {
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.6",
+        "illuminate/database": "^8.83",
+        "illuminate/events": "^8.83",
+        "firebase/php-jwt": "^6.3"
+    }
+}
