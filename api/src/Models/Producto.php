@@ -14,7 +14,8 @@ class Producto extends Model
         'codigo',
         'nombre',
         'descripcion',
-        'precio'
+        'precio',
+        'stock'
     ];
 
     public function imagenes()

@@ -10,6 +10,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Models\Categoria;
 use Models\Producto;
 use Models\Color;
+use Models\ProductoCategoria;
+use Models\ProductoColor;
+use Models\ProductoImagen;
 
 class ProductosController
 {
@@ -31,6 +34,8 @@ class ProductosController
             $stock = $request->getParsedBody()['stock'];
             $codigosColor = $request->getParsedBody()['codigoColor'];
             $codigosCategoria = $request->getParsedBody()['codigoCategoria'];
+            $imagenes = $request->getParsedBody()['imagenes'];
+            
 
             //obtengo los ids de las categorias que se cargaron           
             foreach ($codigosCategoria as $codCategoria) {
@@ -44,12 +49,41 @@ class ProductosController
                 $idsColor[] =["idColor"=>$color->id_color];
             }
             
+            //creo el producto
+            $nuevoProducto = Producto::create([
+                'codigo' => $codigoProd,
+                'nombre' => $nombreProd,
+                'descripcion' => $descripcion,
+                'precio' => $precio,
+                'stock' => $stock
+            ]);
 
-            $nuevoProducto = new Producto;
-            // $nuevoProducto = Producto::create([
-            //     'codigo' => $codigoProd,
-            //     'nombre' => $nombreProd
-            // ]);
+            //prod-img
+            foreach ($imagenes as $imagen) {
+                $path = explode('/',$imagen);
+                $nameImg = array_pop($path);
+                ProductoImagen::create([
+                    'id_prod' => $nuevoProducto->id_prod,
+                    'path_img' => $imagen,
+                    'nombre' => $nameImg
+                ]);
+            }
+            
+            //prod-categ            
+            foreach ($idsCategoria as $idCateg) {
+                ProductoCategoria::create([
+                    'id_prod' => $nuevoProducto->id_prod,
+                    'id_categ' => $idCateg['idCateg']
+                ]);
+            }
+            
+            //prod-color
+            foreach ($idsColor as $idColor) {
+                ProductoColor::create([
+                    'id_prod' => $nuevoProducto->id_prod,
+                    'id_color' => $idColor['idColor']
+                ]);
+            }
 
             $response->getBody()->write(GenericResponse::obtain(true,"Se creó un nuevo producto",$nuevoProducto));
             $response->withStatus(200);
