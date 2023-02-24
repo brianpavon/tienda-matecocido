@@ -3,18 +3,12 @@ import "./Navbar.css";
 import { Link } from 'react-router-dom';
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
-<<<<<<< HEAD
 import { useAuth } from "../../context/AuthContext";
 
 const Navbar = () => {
     const {totalProducts} = useContext(CartContext);
     const {user, closeSession} = useAuth();
 
-=======
-
-const Navbar = () => {
-    const {totalProducts} = useContext(CartContext);
->>>>>>> 8896f7c6732e5cf4ecc4ca23a9b151fdc1172777
     return (
         <nav className="navbar navbar-expand-lg navbar-colour">
             
@@ -37,7 +31,6 @@ const Navbar = () => {
                             <Link to='/category/combos' className="nav-link active">Combos</Link>
                         </li>                        
                     </ul>
-<<<<<<< HEAD
                     
                     {
                         !user ?
@@ -66,8 +59,6 @@ const Navbar = () => {
                         )
                     }
                     
-=======
->>>>>>> 8896f7c6732e5cf4ecc4ca23a9b151fdc1172777
                     <Link className="link-navbar" to='/cart'> <CartWidget totalProducts={totalProducts}/></Link>
                 </div>
             </div>

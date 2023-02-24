@@ -1,9 +1,5 @@
 .navbar-colour {
-<<<<<<< HEAD
     background-color: #ebc5d2 !important;
-=======
-    background-color: #ebc5d2;
->>>>>>> 8896f7c6732e5cf4ecc4ca23a9b151fdc1172777
 }
 
 .link-navbar{
@@ -14,7 +10,6 @@
 .link-navbar:hover{
     text-decoration: none !important;
     color: inherit !important;
-<<<<<<< HEAD
 }
 
 .img-navbar{
@@ -25,6 +20,4 @@
     border-radius: 20px;
     margin-right: 0.2rem;
     box-shadow: 0 0 8px #555;
-=======
->>>>>>> 8896f7c6732e5cf4ecc4ca23a9b151fdc1172777
 }

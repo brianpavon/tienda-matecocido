@@ -4,28 +4,16 @@ import { notificationToast } from "../notification/NotificationService";
 export const CartContext = createContext();
 
 export const CartProvider = ({children}) =>{
-<<<<<<< HEAD
     const [cart,setCart] = useState([]);    
-=======
-    const [cart,setCart] = useState([]);
->>>>>>> 8896f7c6732e5cf4ecc4ca23a9b151fdc1172777
     const [buyerData, setBuyerData] = useState({
         email: '',
         // password: '',
         name: '',
-<<<<<<< HEAD
         //lastname: '',
         address: '',
         telephone:''
     })    
    // console.log(buyerData);
-=======
-        lastname: '',
-        address: '',
-        telephone:''
-    })    
-    
->>>>>>> 8896f7c6732e5cf4ecc4ca23a9b151fdc1172777
     const addItem = (prodToAdd) =>{
         if(!isInCart(prodToAdd.id)){            
             let message = prodToAdd.quantity === 1 ? `Se agregó ${prodToAdd.quantity} producto al carrito` : `Se agregaron ${prodToAdd.quantity} productos al carrito`
