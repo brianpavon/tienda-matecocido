@@ -11,7 +11,11 @@ import { notificationModal } from "../../notification/NotificationService";
 
 const Checkout = () => {
   const [loading, setLoading] = useState(false);
+<<<<<<< HEAD
   const { cart, total, clearCart,totalProducts } = useContext(CartContext);
+=======
+  const { cart, total, clearCart,totalProducts,buyerData } = useContext(CartContext);
+>>>>>>> 8896f7c6732e5cf4ecc4ca23a9b151fdc1172777
   const [orderId, setOrderId] = useState("");
   const navigate = useNavigate();
   const { createOrder } = OrdersFirestore()

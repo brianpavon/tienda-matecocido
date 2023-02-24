@@ -1,11 +1,19 @@
+<<<<<<< HEAD
 import { collection, writeBatch, addDoc} from "firebase/firestore";
+=======
+import { collection, query, where, documentId, getDocs, writeBatch, addDoc} from "firebase/firestore";
+>>>>>>> 8896f7c6732e5cf4ecc4ca23a9b151fdc1172777
 import { db } from "../firebaseConfig";
 import { CartContext } from "../../../context/CartContext";
 import { useContext } from "react";
 import { getProductsByIds } from "./products";
 
 export const OrdersFirestore = ()  =>{
+<<<<<<< HEAD
     const { cart, total, buyerData } = useContext(CartContext);
+=======
+    const { cart, total,clearCart, buyerData } = useContext(CartContext);
+>>>>>>> 8896f7c6732e5cf4ecc4ca23a9b151fdc1172777
     
     const createOrder = async () => {
         try {

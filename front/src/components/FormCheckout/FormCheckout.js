@@ -1,5 +1,6 @@
 import { CartContext } from "../../context/CartContext";
 import { useContext } from "react";
+<<<<<<< HEAD
 import { useAuth } from "../../context/AuthContext";
 const FormCheckout = ({createOrder}) => {
     const { setBuyerData } = useContext(CartContext);
@@ -26,14 +27,36 @@ const FormCheckout = ({createOrder}) => {
                 </div>
 
                 {/* <div className="col-sm-4">                    
+=======
+const FormCheckout = ({createOrder}) => {
+    const { setBuyerData } = useContext(CartContext);
+    return(
+        <form>
+            <div className="row g-3">
+                <div className="col-sm-4">
+                    <label htmlFor="firstName" className="form-label">
+                    Nombre 
+                    </label>
+                    <input type="text" className="form-control" placeholder="Ingresá tu nombre" required 
+                    onChange={({ target }) => setBuyerData(prev => ({...prev,name:target.value}))}/>
+                </div>
+
+                <div className="col-sm-4">                    
+>>>>>>> 8896f7c6732e5cf4ecc4ca23a9b151fdc1172777
                     <label htmlFor="lastName" className="form-label">
                     Apellido
                     </label>                    
                     <input type="text" className="form-control" placeholder="Ingresá tu apellido" required 
                     onChange={({ target }) => setBuyerData(prev => ({...prev,lastname:target.value}))}/>
+<<<<<<< HEAD
                 </div> */}
 
                 <div className="col-sm-6">
+=======
+                </div>
+
+                <div className="col-sm-4">
+>>>>>>> 8896f7c6732e5cf4ecc4ca23a9b151fdc1172777
                     <label htmlFor="lastName" className="form-label">
                     Teléfono
                     </label>
@@ -45,6 +68,7 @@ const FormCheckout = ({createOrder}) => {
                     <label htmlFor="email" className="form-label">
                     Email
                     </label>
+<<<<<<< HEAD
                     {
                         user ?
                         (
@@ -56,6 +80,10 @@ const FormCheckout = ({createOrder}) => {
                             onChange={({ target }) => setBuyerData(prev => ({...prev,email:target.value}))}/>
                         )
                     }
+=======
+                    <input type="email" className="form-control" placeholder="Ingresá tu email" 
+                    onChange={({ target }) => setBuyerData(prev => ({...prev,email:target.value}))}/>
+>>>>>>> 8896f7c6732e5cf4ecc4ca23a9b151fdc1172777
                 </div>
 
                 <div className="col-sm-6">
