@@ -9,13 +9,13 @@ const Footer = ()=>{
                 <ul className="nav col-md-4 justify-content-end">
                     
                     <li className="nav-item">
-                        <a href="#" className="nav-link px-2 text-muted">
+                        <a className="nav-link px-2 text-muted">
                             Recomendaciones y cuidados
                         </a>
                     </li>
 
                     <li className="nav-item">
-                        <a href="#" className="nav-link px-2 text-muted">
+                        <a className="nav-link px-2 text-muted">
                             Sobre Mí
                         </a>
                     </li>
@@ -31,12 +31,7 @@ const Footer = ()=>{
                             <img className="imgRedes" src="../images/facebook.png" alt="logoFacebook"/>                            
                         </a>                        
                     </li>
-
-                    {/* <li className="nav-item">
-                        <a href="#" className="nav-link px-2 text-muted">
-                            About
-                        </a>
-                    </li> */}
+                    
                 </ul>
             </footer>
         </div>

@@ -1,34 +1,25 @@
 import ItemList from "../ItemList/ItemList";
-import { getProducts, getProductsByCategory } from "../../asyncMock";
-import { useState,useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Spinner from "../Spinner/Spinner";
+import { useAsync } from "../../hooks/useAsync";
+import { getProducts } from "../../services/firebase/firestore/products";
+import { notificationModal } from "../../notification/NotificationService";
 
 const ItemListContainer = ({greeting}) => {
-    const [products, setProducts] = useState([])
-    const [loading, setLoading] = useState(true)
+    
     const { categoryId } = useParams()
-    const categoria = categoryId ? categoryId.replace('-',' & ') : ''
+    const categoria = categoryId ? categoryId.replace('-',' & ') : '';
 
-    useEffect(() => {
-        setLoading(true)
-        
-        const asyncFunction = categoryId ? getProductsByCategory : getProducts
-        asyncFunction(categoryId).then(response => {
-            setProducts(response)
-        }).catch(error => {
-            console.log(error)
-        }).finally(() => {
-            setLoading(false)
-        })          
-    }, [categoryId])
+    const getProductsWithCategory = () => getProducts(categoryId);
+    const { data:products,error,loading} = useAsync(getProductsWithCategory, [categoryId] );
 
     if(loading) {
-        //return <h1>Cargando productos...</h1>
-
        return (
             <Spinner/>            
         )
+    }
+    if(error){        
+        notificationModal('','Ha ocurrido un error','error');
     }
     return(        
         <>       

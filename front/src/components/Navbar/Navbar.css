@@ -1,3 +1,23 @@
 .navbar-colour {
-    background-color: #ebc5d2;
+    background-color: #ebc5d2 !important;
+}
+
+.link-navbar{
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.link-navbar:hover{
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.img-navbar{
+    width: 20%;
+    height: 20%;
+    max-width: 50px;
+    max-height: 50px;
+    border-radius: 20px;
+    margin-right: 0.2rem;
+    box-shadow: 0 0 8px #555;
 }

@@ -1,26 +1,22 @@
-import ItemCount from "../ItemCount/ItemCount"
+import ItemCount from "../ItemCount/ItemCount";
+import { CartContext } from "../../context/CartContext";
+import { useContext,useState } from "react";
 
 
-const ItemDetail = ({name, img, price,description,stock}) =>{    
+const ItemDetail = ({id,name, img, price,description,stock}) =>{
+    const [quantity,setQuantity] = useState(0);
+    
+    const {addItem} = useContext(CartContext);
+    
+    const handleOnAdd = (quantity) =>{
+        setQuantity(quantity);        
+        addItem({id,name,price,img,quantity});
+    }
 
     return(
             
         <>   
-        {/* <div className="row p-4 justify-content-center">
-            <div className="col-3">
-                <div className="card h-100">
-                    <img src={img} className="card-img-top" alt={img}/>
-                    <h5 className="card-title">{name}</h5>
-                    <div className="card-body">
-                        <p className="card-text">${price}</p>
-                        <p className="card-text">{description}</p>
-                    </div>
-                    <div className="card-footer">
-                        <a href="#" className="btn btn-danger">Agregar</a>
-                    </div>
-                </div>
-            </div>
-        </div> */}
+       
         <div className="container-fluid mt-4 p-4 d-flex justify-content-center">
 
             <div className="card mb-3" style={{maxWidth:'50vw'}}>
@@ -35,7 +31,7 @@ const ItemDetail = ({name, img, price,description,stock}) =>{
                             <h5 className="card-title mt-4">${price}</h5>
                         </div>
                         <>
-                          <ItemCount stock={stock}/>  
+                          <ItemCount id={id} stock={stock} onAdd={handleOnAdd}/>
                         </>
                         
                     </div>                    

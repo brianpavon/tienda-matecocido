@@ -1,8 +1,14 @@
 import CartWidget from "../CartWidget/CartWidget";
 import "./Navbar.css";
 import { Link } from 'react-router-dom';
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
+import { useAuth } from "../../context/AuthContext";
 
 const Navbar = () => {
+    const {totalProducts} = useContext(CartContext);
+    const {user, closeSession} = useAuth();
+
     return (
         <nav className="navbar navbar-expand-lg navbar-colour">
             
@@ -22,30 +28,38 @@ const Navbar = () => {
                             <Link to='/category/hogar-deco' className="nav-link active">Hogar & Deco</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to='/category/combos' className="nav-link active" aria-current="page" href="#">Combos</Link>
+                            <Link to='/category/combos' className="nav-link active">Combos</Link>
                         </li>                        
-                         
-                        
-                        {/* <li className="nav-item">
-                            <a className="nav-link" href="#">Productos</a>
-                        </li>
-                        <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Productos
-                            </a>
-                            <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#">Tazas</a></li>
-                                <li><a className="dropdown-item" href="#">Bowls</a></li>
-                                <li><a className="dropdown-item" href="#">Combos</a></li>
-                                <li><hr className="dropdown-divider"/></li>
-                                <li><a className="dropdown-item" href="#">Hornitos</a></li>
-                            </ul>
-                        </li> */}
-                        {/* <li className="nav-item">
-                            <a className="nav-link disabled">Disabled</a>
-                        </li> */}
                     </ul>
-                    <CartWidget/>                    
+                    
+                    {
+                        !user ?
+                        (
+                            <Link to='/login' className="me-4 btn btn-outline-dark">Login</Link>
+                        )                            
+                        :
+                        (
+                            <ul className="navbar-nav">
+                                <img className="img-navbar" src={user.profilePhoto ? user.profilePhoto : '../images/user.png'} alt="img-profile"/>
+                                <li className="nav-item dropdown">
+                                    <a className="nav-link dropdown-toggle"role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {user.name ? user.name : user.email}
+                                    </a>
+                                    <ul className="dropdown-menu navbar-colour">
+                                        <li>
+                                            <Link className="dropdown-item" to='/orders'>Mis pedidos</Link>
+                                        </li>
+                                        <li><hr className="dropdown-divider"/></li>
+                                        <li>
+                                            <button className="dropdown-item" onClick={closeSession}>Salir</button>
+                                        </li>                                        
+                                    </ul>
+                                </li>
+                            </ul>
+                        )
+                    }
+                    
+                    <Link className="link-navbar" to='/cart'> <CartWidget totalProducts={totalProducts}/></Link>
                 </div>
             </div>
         </nav>
