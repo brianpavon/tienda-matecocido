@@ -21,3 +21,8 @@
     margin-right: 0.2rem;
     box-shadow: 0 0 8px #555;
 }
+
+.link-logo{
+    box-shadow: none !important;
+    background-color: #ebc5d2 !important;
+}
