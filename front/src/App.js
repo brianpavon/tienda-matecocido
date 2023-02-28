@@ -6,17 +6,20 @@ import Footer from './components/Footer/Footer';
 import { CartProvider } from './context/CartContext';
 import AppRouter from './routes/AppRouter';
 import { AuthProvider } from './context/AuthContext';
+import Dashboard from './components/Dashboard/Dashboard';
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
   
   return (
     <div className="App">
+      
       <CartProvider>
         <BrowserRouter>
           <AuthProvider>
-            <Navbar />
+            {/* <Navbar /> */}
               <AppRouter/>
-            <Footer/>
+              {/* <Footer/> */}
           </AuthProvider>
         </BrowserRouter>
       </CartProvider>
