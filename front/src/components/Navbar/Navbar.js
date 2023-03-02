@@ -31,7 +31,7 @@ const Navbar = () => {
                             <Link to='/category/combos' className="nav-link active">Combos</Link>
                         </li>                        
                     </ul>
-                    {/* <Link className="link-navbar" to='/cart'> <CartWidget totalProducts={totalProducts}/></Link> */}
+                    <Link className="link-navbar" to='/cart'> <CartWidget totalProducts={totalProducts}/></Link>
                 </div>
             </div>
         </nav>
