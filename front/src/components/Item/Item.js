@@ -1,10 +1,24 @@
 import './Item.css'
 import { Link } from 'react-router-dom'
-const Item = ({id, name, img, price})=>{
+import Carrousel from '../Carrousel/Carrousel';
+
+const Item = ({id, name,img ,imagenes, price})=>{
+
     return(
         <div className="col">
             <div className="card h-100">
-                <img src={img} className="card-img-top" alt={img}/>
+                {
+                    imagenes.length > 1
+                    ?
+                    (
+                        <Carrousel imagenes={imagenes}/>
+                    )
+                    :
+                    (
+                        <img src={img} className="card-img-top" alt={img}/>
+                    )
+                }
+                
                 <div className="card-body">
                     <h5 className="card-title">{name}</h5>
                     <p className="card-text">${price}</p>

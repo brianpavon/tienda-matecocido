@@ -5,6 +5,7 @@ export const createAdaptedProductFromFirestore = ( doc ) => {
         id: doc.id,
         name: data.name,
         img: data.img,
+        imagenes:data.imagenes,
         price: data.price,
         category: data.category,
         description: data.description,
