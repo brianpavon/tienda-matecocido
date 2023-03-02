@@ -1,7 +1,6 @@
 .btnSumarRestar{
-    width:2vw !important;
+    width:3vw !important;
     background-color:#f5e9c6 !important;
-
 }
 
 .input-count{
@@ -18,3 +17,11 @@
     transform: scale(0.9);
     background-color:#f5e9c6 !important;
 }
+
+@media (max-width: 600px) {
+    .input-count{
+        width:40% !important;
+        font-weight:bold !important;
+        border: 1px solid #f5e9c6 !important;
+    }
+  }

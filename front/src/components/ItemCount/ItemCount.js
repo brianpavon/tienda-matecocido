@@ -37,30 +37,43 @@ const ItemCount = ({id,stock,onAdd}) =>{
 
     return (
         <div className="justify-content-center">
-            <div className="btn-group btn-group-sm" role="group" aria-label="Small button group">
-                <button type="button" className={!isInCart(id) ? 'btn btnSumarRestar' : 'btn btnSumarRestar disabled'} onClick={count > 0 ? decrement : reset}>
-                    <img src="../images/minus.png" alt="img_minus" className="imgIcons"/>
-                </button>                
-                <input onChange={handleChange} className="input-count text-center" value={count} readOnly={isInCart(id)}/>
-                <button type="button" className={!isInCart(id) ? 'btn btnSumarRestar' : 'btn btnSumarRestar disabled'} onClick={increment}>
-                    <img src="../images/plus.png" alt="img_plus" className="imgIcons"/>
-                </button>
-            </div>        
-            <div className="mt-4">
-                {
-                    isInCart(id) ?
-                    (    
-                        <Link to='/cart' className='btn btn-finalizar'>
-                            Finalizar compra
-                        </Link>
-                    ) : 
-                    (
-                        <button className={ count > 0 ? 'btn btn-detalle' : 'btn btn-detalle disabled'} onClick={() => onAdd(count)}>
-                            Agregar al carrito
-                        </button>                        
-                    )
-                }
-            </div>
+            {
+                stock === 0 
+                ?
+                (
+                    <span className="text-muted">Sin Stock</span>
+                )
+                :
+                (
+                    <>
+                    <div className="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                        <button type="button" className={!isInCart(id) ? 'btn btnSumarRestar' : 'btn btnSumarRestar disabled'} onClick={count > 0 ? decrement : reset}>
+                            <img src="../images/minus.png" alt="img_minus" className="imgIcons"/>
+                        </button>                
+                        <input onChange={handleChange} className="input-count text-center" value={count} readOnly={isInCart(id)}/>
+                        <button type="button" className={!isInCart(id) ? 'btn btnSumarRestar' : 'btn btnSumarRestar disabled'} onClick={increment}>
+                            <img src="../images/plus.png" alt="img_plus" className="imgIcons"/>
+                        </button>
+                    </div>
+                    <div className="mt-4">
+                        {
+                            isInCart(id) ?
+                            (    
+                                <Link to='/cart' className='btn btn-finalizar'>
+                                    Finalizar compra
+                                </Link>
+                            ) : 
+                            (
+                                <button className={ count > 0 ? 'btn btn-detalle' : 'btn btn-detalle disabled'} onClick={() => onAdd(count)}>
+                                    Agregar al carrito
+                                </button>                        
+                            )
+                        }
+                    </div>
+                    </>
+                )
+            }
+            
         </div>
     )
 }

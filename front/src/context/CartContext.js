@@ -49,18 +49,26 @@ export const CartProvider = ({children}) =>{
     }
 
     const setMessageWhatsapp = () =>{
-        
+        let textWhatsapp = 'Hola!! Me interesa comprar estos productos:';
+        cart.forEach(prod => {
+            textWhatsapp = `${textWhatsapp}%0A-${prod.name}: ${prod.quantity}`;
+        })
+        //salto de linea %0A
+        //espacio %20
+        const textWhatsappFormatted = textWhatsapp.replaceAll(' ','%20');
+        return textWhatsappFormatted;
     }
 
     const totalProducts = getTotalProducts();
     const total = getTotal()
+    const messageToWhatsapp = setMessageWhatsapp();
 
     const clearCart = ()=>{
         setCart([]);
     }
    
     return(
-        <CartContext.Provider value={{cart,addItem,isInCart,totalProducts,total,clearCart,setBuyerData,buyerData,removeItem}}>
+        <CartContext.Provider value={{cart,addItem,isInCart,totalProducts,total,clearCart,setBuyerData,buyerData,removeItem,messageToWhatsapp}}>
             {children}
         </CartContext.Provider>
     )
