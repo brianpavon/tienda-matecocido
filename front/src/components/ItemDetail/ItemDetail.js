@@ -30,9 +30,9 @@ const ItemDetail = ({id,name, img, price,description,stock}) =>{
                             <p className="card-text mt-4 mb-4">{description}</p>
                             <h5 className="card-title mt-4">${price}</h5>
                         </div>
-                        <>
+                        {/* <>
                           <ItemCount id={id} stock={stock} onAdd={handleOnAdd}/>
-                        </>                        
+                        </>                         */}
                     </div>                    
                 </div>
             </div>
