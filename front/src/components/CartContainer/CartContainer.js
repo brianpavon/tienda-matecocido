@@ -10,7 +10,7 @@ const CartContainer = () => {
 
   const handleSendCart = () => {
     
-    const url = `https://wa.me/+5491161319337?text=${messageToWhatsapp}`
+    const url = `https://wa.me/+5491144014202?text=${messageToWhatsapp}`
     window.open(
         url,
         '_blank'
