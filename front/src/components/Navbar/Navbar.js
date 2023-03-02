@@ -31,35 +31,7 @@ const Navbar = () => {
                             <Link to='/category/combos' className="nav-link active">Combos</Link>
                         </li>                        
                     </ul>
-                    
-                    {
-                        !user ?
-                        (
-                            <Link to='/login' className="me-4 btn btn-outline-dark">Login</Link>
-                        )                            
-                        :
-                        (
-                            <ul className="navbar-nav">
-                                <img className="img-navbar" src={user.profilePhoto ? user.profilePhoto : '../images/user.png'} alt="img-profile"/>
-                                <li className="nav-item dropdown">
-                                    <a className="nav-link dropdown-toggle"role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {user.name ? user.name : user.email}
-                                    </a>
-                                    <ul className="dropdown-menu navbar-colour">
-                                        <li>
-                                            <Link className="dropdown-item" to='/orders'>Mis pedidos</Link>
-                                        </li>
-                                        <li><hr className="dropdown-divider"/></li>
-                                        <li>
-                                            <button className="dropdown-item" onClick={closeSession}>Salir</button>
-                                        </li>                                        
-                                    </ul>
-                                </li>
-                            </ul>
-                        )
-                    }
-                    
-                    <Link className="link-navbar" to='/cart'> <CartWidget totalProducts={totalProducts}/></Link>
+                    {/* <Link className="link-navbar" to='/cart'> <CartWidget totalProducts={totalProducts}/></Link> */}
                 </div>
             </div>
         </nav>

@@ -8,7 +8,7 @@ const Footer = ()=>{
 
                 <ul className="nav col-md-4 justify-content-end">
                     
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <a className="nav-link px-2 text-muted">
                             Recomendaciones y cuidados
                         </a>
@@ -18,7 +18,7 @@ const Footer = ()=>{
                         <a className="nav-link px-2 text-muted">
                             Sobre Mí
                         </a>
-                    </li>
+                    </li> */}
 
                     <li className="nav-item">
                         <a target="_blank" href="https://www.instagram.com/matecocido.ceramica/" className="nav-link px-2 text-muted">
