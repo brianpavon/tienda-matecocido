@@ -24,17 +24,17 @@ const ItemDetail = ({id,name, img, price,description,stock,imagenes}) =>{
                 <div className="row g-0">
                     <div className="col-md-5">
                     {
-                    imagenes.length > 1
-                    ?
-                    (
-                        <Carrousel imagenes={imagenes} className="img-fluid rounded"/>
-                    )
-                    :
-                    (
-                        <img src={img} className="card-img-top" alt={img}/>
-                    )
-                }
-                        {/* <img src={img} className="img-fluid rounded-start" alt="..."/> */}
+                        imagenes.length > 1
+                        ?
+                        (
+                            <Carrousel imagenes={imagenes} className="img-fluid rounded"/>
+                        )
+                        :
+                        (
+                            <img src={img} className="img-fluid rounded" alt="product-image"/>
+                        )
+                    }
+                        
                     </div>
                     <div className="col-md-6 p-4 mt-4">
                         <div className="card-body p-4">
@@ -42,10 +42,6 @@ const ItemDetail = ({id,name, img, price,description,stock,imagenes}) =>{
                             <p className="card-text mt-4 mb-4">{description}</p>
                             <h5 className="card-title mt-4">${price}</h5>
                         </div>
-                        {/* <>
-                          <ItemCount id={id} stock={stock} onAdd={handleOnAdd}/>
-                        </> */}
-                        
                     </div>                    
                 </div>
             </div>
