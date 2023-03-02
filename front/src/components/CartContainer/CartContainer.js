@@ -35,7 +35,7 @@ const CartContainer = () => {
                 <div className="col-lg-12 p-3 bg-white rounded shadow-sm mb-4">
                     <CartDetail cart={cart}/>
                     {/* <Link to='/checkout' className="btn btn-dark rounded-pill py-2 btn-block">Ir a Checkout</Link> */}
-                    <a href="https://wa.me/+5491144014202?text=Hola%20estoy%20probando%20esto" target="_blank" className="btn btn-dark rounded-pill py-2 btn-block">Mandar mi pedido</a>
+                    <a href="https://wa.me/+5491161319337?text=Hola%20estoy%20probando%20esto" target="_blank" className="btn btn-dark rounded-pill py-2 btn-block">Mandar mi pedido</a>
                 </div>
             </div>
         </div>        

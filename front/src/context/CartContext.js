@@ -48,6 +48,10 @@ export const CartProvider = ({children}) =>{
         return total;
     }
 
+    const setMessageWhatsapp = () =>{
+        
+    }
+
     const totalProducts = getTotalProducts();
     const total = getTotal()
 
