@@ -15,7 +15,6 @@ const ItemListContainer = ({greeting}) => {
 
     if(loading) {
        return (
-        
             <Spinner/>            
         )
     }
