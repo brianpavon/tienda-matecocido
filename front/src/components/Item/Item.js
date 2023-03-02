@@ -11,7 +11,7 @@ const Item = ({id, name,img ,imagenes, price})=>{
                     imagenes.length > 1
                     ?
                     (
-                        <Carrousel imagenes={imagenes}/>
+                        <Carrousel imagenes={imagenes} className="card-img-top"/>
                     )
                     :
                     (

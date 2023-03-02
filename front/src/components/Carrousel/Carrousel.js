@@ -1,13 +1,13 @@
 import Carousel from 'react-bootstrap/Carousel';
 
-function Carrousel({imagenes}) {
+function Carrousel({imagenes,className}) {
     
     return (
         
         <Carousel fade>
             {imagenes.map(url =>                 
                     <Carousel.Item key={url}>
-                        <img className="card-img-top" src={url} alt="product-image"/>            
+                        <img className={className} src={url} alt="product-image"/>            
                     </Carousel.Item>
             )}        
         </Carousel>

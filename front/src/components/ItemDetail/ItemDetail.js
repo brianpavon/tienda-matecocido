@@ -1,9 +1,10 @@
 import ItemCount from "../ItemCount/ItemCount";
 import { CartContext } from "../../context/CartContext";
 import { useContext,useState } from "react";
+import Carrousel from "../Carrousel/Carrousel";
 
 
-const ItemDetail = ({id,name, img, price,description,stock}) =>{
+const ItemDetail = ({id,name, img, price,description,stock,imagenes}) =>{
     const [quantity,setQuantity] = useState(0);
     
     const {addItem} = useContext(CartContext);
@@ -22,7 +23,18 @@ const ItemDetail = ({id,name, img, price,description,stock}) =>{
             <div className="card mb-3" style={{maxWidth:'50vw'}}>
                 <div className="row g-0">
                     <div className="col-md-5">
-                        <img src={img} className="img-fluid rounded-start" alt="..."/>
+                    {
+                    imagenes.length > 1
+                    ?
+                    (
+                        <Carrousel imagenes={imagenes} className="img-fluid rounded"/>
+                    )
+                    :
+                    (
+                        <img src={img} className="card-img-top" alt={img}/>
+                    )
+                }
+                        {/* <img src={img} className="img-fluid rounded-start" alt="..."/> */}
                     </div>
                     <div className="col-md-6 p-4 mt-4">
                         <div className="card-body p-4">
