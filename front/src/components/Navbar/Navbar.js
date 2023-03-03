@@ -15,6 +15,9 @@ const Navbar = () => {
             <div className="container-fluid">
                 
                 <Link to='/' className="navbar-brand link-logo">Mate Cocido</Link>
+                <div className="col-sm-6 d-block d-sm-none">
+                    <Link className="link-navbar" to='/cart'> <CartWidget totalProducts={totalProducts}/></Link>
+                </div>
                 
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -31,7 +34,7 @@ const Navbar = () => {
                             <Link to='/category/combos' className="nav-link active">Combos</Link>
                         </li>                        
                     </ul>
-                    {/* <Link className="link-navbar" to='/cart'> <CartWidget totalProducts={totalProducts}/></Link> */}
+                    <Link className="link-navbar d-none d-sm-block" to='/cart'> <CartWidget totalProducts={totalProducts}/></Link>
                 </div>
             </div>
         </nav>

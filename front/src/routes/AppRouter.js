@@ -14,9 +14,9 @@ const AppRouter = ()=>{
     //console.log(user);
     return(
         <>
-        <Navbar/>
+        {/* <Navbar/> */}
         <Routes>                
-            {/* <Route path='/dashboard' element={<Dashboard/>} /> */}
+            <Route path='/dashboard' element={<Dashboard/>} />
             <Route path='/' element={<ItemListContainer greeting={"Todas nuestras piezas"}/>} />
             <Route path='/category/:categoryId' element={<ItemListContainer/>} />
             <Route path='/detail/:productId' element={<ItemDetailContainer/>} />
@@ -24,7 +24,7 @@ const AppRouter = ()=>{
             <Route path='/checkout' element={<Checkout/>} />
             <Route path='/login' element={<Login/>} /> */}
         </Routes>
-        <Footer/>
+        {/* <Footer/> */}
         </>
     )
 }
