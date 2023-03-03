@@ -11,6 +11,10 @@ import Dashboard from '../components/Dashboard/Panel/Dashboard';
 import AbmProducts from '../components/Dashboard/Products/AbmProducts';
 import DashboardGuard from '../guards/Dashboard-guard';
 import NavigationDashboard from '../components/Dashboard/NavigationDashboard/NavigationDashboard';
+import OrdersCustomers from '../components/Dashboard/OdersCustomers/OrdersCustomers';
+import Customers from '../components/Dashboard/Customers/Customers';
+import Reports from '../components/Dashboard/Reports/Reports';
+import Sections from '../components/Dashboard/Sections/Sections';
 
 const AppRouter = ()=>{
     //const { user } = useAuth();
@@ -18,13 +22,17 @@ const AppRouter = ()=>{
     
     return(
         <>
-        { location.pathname.startsWith('/dashb') ? <NavigationDashboard/> : <Navbar/>}
+        { location.pathname.startsWith('/backoffice') ? <NavigationDashboard/> : <Navbar/>}
         
         <Routes>                
             
-            <Route path='/dashboard/' element={<DashboardGuard/>}>
+            <Route path='/backoffice/' element={<DashboardGuard/>}>
                 <Route path='' element={<Dashboard/>}/>
-                <Route path='products' element={<AbmProducts/>}/>
+                <Route path='productos' element={<AbmProducts/>}/>
+                <Route path='ordenes-compra' element={<OrdersCustomers/>}/>
+                <Route path='clientes' element={<Customers/>}/>
+                <Route path='reportes' element={<Reports/>}/>
+                <Route path='secciones-pagina' element={<Sections/>}/>
             </Route>
             
             <Route path='/' element={<ItemListContainer greeting={"Todas nuestras piezas"}/>} />
@@ -34,7 +42,7 @@ const AppRouter = ()=>{
             <Route path='/checkout' element={<Checkout/>} />
             <Route path='/login' element={<Login/>} /> */}
         </Routes>
-        { location.pathname.startsWith('/dashb') ? '' : <Footer/>}
+        { location.pathname.startsWith('/backoffice') ? '' : <Footer/>}
         
         </>
     )
