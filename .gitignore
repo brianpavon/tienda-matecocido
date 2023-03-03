@@ -1,6 +1,7 @@
 api/vendor/*
 
 front/node_modules/*
+front/.env
 
 front/pnp
 front/pnp.js
