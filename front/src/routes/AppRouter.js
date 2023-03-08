@@ -15,6 +15,7 @@ import OrdersCustomers from '../components/Dashboard/OdersCustomers/OrdersCustom
 import Customers from '../components/Dashboard/Customers/Customers';
 import Reports from '../components/Dashboard/Reports/Reports';
 import Sections from '../components/Dashboard/Sections/Sections';
+import ProductsPrincipal from '../components/Dashboard/Products/ProductsPrincipal';
 
 const AppRouter = ()=>{
     //const { user } = useAuth();
@@ -28,7 +29,8 @@ const AppRouter = ()=>{
             
             <Route path='/backoffice/' element={<DashboardGuard/>}>
                 <Route path='' element={<Dashboard/>}/>
-                <Route path='productos' element={<AbmProducts/>}/>
+                <Route path='productos/nuevo-producto' element={<AbmProducts/>}/>
+                <Route path='productos' element={<ProductsPrincipal/>}/>
                 <Route path='ordenes-compra' element={<OrdersCustomers/>}/>
                 <Route path='clientes' element={<Customers/>}/>
                 <Route path='reportes' element={<Reports/>}/>
