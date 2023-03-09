@@ -1,0 +1,7 @@
+.ulCheckbox{
+    max-height: 18vh !important;
+    overflow-y: scroll !important;    
+}
+.ulCheckbox::-webkit-scrollbar {
+    display: none;
+}

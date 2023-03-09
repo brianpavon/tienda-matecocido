@@ -14,16 +14,16 @@ const TbodyContent = ({element,keys,actions}) =>{
     
     return(   
         <tr>
-            {keys.map(key => <td className="align-middle" key={key}>{(key == "updated_at") ? formatFecha(element[key]) : element[key]}</td>)}
+            {keys.map(key => <td className="align-middle" key={key}>{(key === "updated_at") ? formatFecha(element[key]) : element[key]}</td>)}
             {
                 (actions) 
                 ? 
                     <td className="bg-light">
                         <Link className="btn btn-sm" title="Editar">
-                            <img width="20" height="20" src="../images/edit-icon.png"/>
+                            <img width="20" height="20" src="../images/edit-icon.png" alt="img-edit"/>
                         </Link>
                         <Link className="btn btn-sm" title="Borrar">
-                            <img width="20" height="20" src="../images/remove-icon.png"/>
+                            <img width="20" height="20" src="../images/remove-icon.png" alt="img-remove"/>
                         </Link>
                     </td> 
                 : 
