@@ -62,6 +62,14 @@ const AbmProducts = () => {
     };
 
     
+    const [selectedFiles, setSelectedFiles] = useState([]);
+      
+    const handleChange = event => {
+        setSelectedFiles([...event.target.files]);
+    };
+    
+
+    
     
     return(
         <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -155,8 +163,16 @@ const AbmProducts = () => {
                         <div className="mb-3 row text-end">
                             <label htmlFor="inputPassword" className="col-sm-3 col-form-label">Imágenes del producto:</label>                        
                             <div className="col-sm-8">
-                                <input className="form-control" type="file" id="formFile"/>  
+                                <input className="form-control" type="file" accept=".png, .jpg, .jpeg" multiple onChange={handleChange}/>                                                               
                             </div>
+                        </div>
+                        <div className="mb-3 row">                            
+                            {selectedFiles.map(file => (
+                                <div key={`${file.name}-div`} className="col mt-2 position-relative">
+                                    <button key={`${file.name}-btn`} type="button" className="btn-close position-absolute top-0" aria-label="Close"></button>
+                                    <img key={`${file.name}-img`} className="rounded" width="100" height="100" src={URL.createObjectURL(file)} alt="img"/>
+                                </div>
+                            ))}
                         </div>
 
                         <button className="btn btn-dark btn-block mt-2 m-2" type="button">Crear el Producto</button>
