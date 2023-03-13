@@ -26,17 +26,17 @@ class ProductosController
 
     //Crea un nuevo producto
     public function nuevoProducto(Request $request,Response $response){
-        try {
-            $codigoProd = $request->getParsedBody()['codigoProd'];
-            $nombreProd = $request->getParsedBody()['nombre'];
-            $descripcion = $request->getParsedBody()['descripcion'];
-            $precio = $request->getParsedBody()['precio'];
-            $stock = $request->getParsedBody()['stock'];
-            $codigosColor = $request->getParsedBody()['codigoColor'];
-            $codigosCategoria = $request->getParsedBody()['codigoCategoria'];
-            $imagenes = $request->getParsedBody()['imagenes'];
+        try {            
+            $codigoProd = isset($request->getParsedBody()['codigoProd']) ? $request->getParsedBody()['codigoProd'] : '';
+            $nombreProd = isset($request->getParsedBody()['nombre']) ? $request->getParsedBody()['nombre'] : '';
+            $descripcion = isset($request->getParsedBody()['descripcion']) ? $request->getParsedBody()['descripcion'] : '';
+            $precio = isset($request->getParsedBody()['precio']) ? $request->getParsedBody()['precio'] : '';
+            $stock = isset($request->getParsedBody()['stock']) ? $request->getParsedBody()['stock'] : '';
+            $codigosColor = isset($request->getParsedBody()['codigoColor']) ? explode(',',$request->getParsedBody()['codigoColor']) : '';
+            $codigosCategoria = isset($request->getParsedBody()['codigoCategoria']) ? explode(',',$request->getParsedBody()['codigoCategoria']) : '';
             
-
+            $imagenes = $request->getUploadedFiles();           
+           
             //obtengo los ids de las categorias que se cargaron           
             foreach ($codigosCategoria as $codCategoria) {
                 $categ = Categoria::where('codigo',$codCategoria)->first();
@@ -58,13 +58,23 @@ class ProductosController
                 'stock' => $stock
             ]);
 
+            $carpetaProducto = $_ENV["PATH_UPLOAD_IMAGES"].$nuevoProducto->codigo.'/';
+
+            //si no existe el directorio de imagenes lo crea
+            if(!file_exists($carpetaProducto)){           
+                mkdir($carpetaProducto,0777,true);
+            }
+            
+      
             //prod-img
             foreach ($imagenes as $imagen) {
-                $path = explode('/',$imagen);
-                $nameImg = array_pop($path);
+                //$path = explode('/',$imagen);
+                $nameImg = $imagen->getClientFilename();
+                $path = $carpetaProducto.$nameImg;
+                $imagen->moveTo($path);
                 ProductoImagen::create([
                     'id_prod' => $nuevoProducto->id_prod,
-                    'path_img' => $imagen,
+                    'path_img' => $path,
                     'nombre' => $nameImg
                 ]);
             }
