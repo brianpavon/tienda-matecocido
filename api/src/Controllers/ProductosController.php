@@ -21,6 +21,19 @@ class ProductosController
     {
         $productos = Producto::get();
         foreach ($productos as $producto) {
+            $producto->imagenes;            
+        }        
+        $response->getBody()->write(GenericResponse::obtain(true,'Todos los productos',$productos,));
+        return $response;
+    }
+    
+    //Devuelve todos los productos
+    public function obtenerProductosPorCategoria(Request $request,Response $response,$args)
+    {
+        $categ = $args['categoria'];
+        $productos = Producto::getProductosPorCategoria($categ);
+
+        foreach ($productos as $producto) {
             $producto->imagenes;
         }        
         $response->getBody()->write(GenericResponse::obtain(true,'Todos los productos',$productos,));

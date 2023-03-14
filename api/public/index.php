@@ -54,6 +54,7 @@ $app->group('/auth',function (RouteCollectorProxy $group){
  */
 $app->group('/productos',function (RouteCollectorProxy $group){
     $group->get('[/]',ProductosController::class . ":obtenerProductos");
+    $group->get('/{categoria}',ProductosController::class . ":obtenerProductosPorCategoria");
     $group->post('/nuevo-producto',ProductosController::class . ":nuevoProducto");
 });
 

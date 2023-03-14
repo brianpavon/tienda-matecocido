@@ -22,7 +22,7 @@ class ProductoCategoria extends Model
 
     public function categoria()
     {
-        return $this->belongsTo(Categoria::class,'id_prod');
+        return $this->belongsTo(Categoria::class,'id_categ');
     }
     
 }

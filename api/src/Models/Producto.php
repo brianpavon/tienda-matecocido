@@ -4,6 +4,8 @@ namespace Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Models\ProductoImagen;
+use Models\ProductoCategoria;
+use Models\Categoria;
 
 class Producto extends Model
 {
@@ -22,6 +24,23 @@ class Producto extends Model
     public function imagenes()
     {
         return $this->hasMany(ProductoImagen::class,'id_prod');
+    }
+
+    // public function categorias()
+    // {
+    //     return $this->hasMany(ProductoCategoria::class,'id_prod');
+    // }
+
+    public function categorias()
+    {
+        return $this->belongsToMany(Categoria::class, 'productos_categorias', 'id_prod', 'id_categ');
+    }
+
+    public static function getProductosPorCategoria($codCateg){
+        return Producto::whereHas('categorias', function ($query) use ($codCateg) {
+                                    $query->where('codigo', $codCateg);
+                                    })
+                                ->get();
     }
 
 }
