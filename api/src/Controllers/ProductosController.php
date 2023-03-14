@@ -22,12 +22,7 @@ class ProductosController
         $productos = Producto::get();
         foreach ($productos as $producto) {
             $producto->imagenes;
-            //foreach ($producto->imagenes as $imagen) {
-                //$producto->urlImagenes = $imagen->path_img;
-                //var_dump($imagen->path_img);
-            //}
-        }
-        //die();
+        }        
         $response->getBody()->write(GenericResponse::obtain(true,'Todos los productos',$productos,));
         return $response;
     }
