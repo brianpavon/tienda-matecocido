@@ -3,7 +3,7 @@ import TbodyContent from './TbodyContent';
 import Thead from './Thead';
 
 const TableRender = ({elements,haveActions,element}) => {
-    //no quiero mostrar en la tabla el id de la db ni el created
+    //no quiero mostrar en la tabla el id de la db ni el created    
     const keysExcluidas = ["created_at",`id_${element}`]
     const keysElement = Object.keys(elements[0]).filter(key => !keysExcluidas.includes(key));
     

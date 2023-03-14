@@ -14,6 +14,7 @@ class ProductoImagen extends Model
         'path_img',
         'nombre'
     ];
+    protected $hidden = ['id_img_prod','id_prod','created_at'];
 
     public function producto()
     {

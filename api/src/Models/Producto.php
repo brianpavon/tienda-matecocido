@@ -17,6 +17,7 @@ class Producto extends Model
         'precio',
         'stock'
     ];
+    protected $hidden = ['id_prod','created_at'];
 
     public function imagenes()
     {
