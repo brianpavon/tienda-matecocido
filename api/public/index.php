@@ -25,6 +25,10 @@ use Controllers\ColoresController;
 $conn = new Database();
 $app = AppFactory::create();
 
+//PARA USAR ARCHIVOS .ENV
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/..');
+$dotenv->load();
+
 //establecemos la url base
 $app->setBasePath('/tienda-matecocido/api/public');//url local
 
