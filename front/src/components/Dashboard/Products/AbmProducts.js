@@ -1,6 +1,6 @@
 import { useEffect,useRef,useState } from "react";
 import { Link } from "react-router-dom";
-import { notificationModal, notificationToast } from "../../../notification/NotificationService";
+import { notificationModal } from "../../../notification/NotificationService";
 import './Products.css';
 
 const AbmProducts = () => {
@@ -10,7 +10,7 @@ const AbmProducts = () => {
     const [formValues, setFormValues] = useState({
         codigoProd:'',
         nombre:'',
-        descripcion:'',
+        descripcion:"",
         precio:'',
         stock:'',
         codigoColor:[],
@@ -21,6 +21,7 @@ const AbmProducts = () => {
     const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
     const [coloresSeleccionados, setColoresSeleccionados] = useState([]);    
     const fileInput = useRef(null);
+    const formRef = useRef(null);
         
     useEffect(() => {
         fetch(`${url}categorias`)
@@ -106,7 +107,7 @@ const AbmProducts = () => {
         fileInput.current.files = dataTransfer.files;
         
     },[categoriasSeleccionadas,coloresSeleccionados,selectedFiles])
-
+    
     const crearProducto = async(event) => {
         //console.log('en crear el producto');
         event.preventDefault();
@@ -127,17 +128,34 @@ const AbmProducts = () => {
             body: formData
         };
         try {
-            const res =  await fetch(`${url}productos/nuevo-producto`,options);
-            console.log(res);
-            // if(!res.ok){           
-            //     throw {error: res.status, statusText:res.statusText};
-            // }
-            // console.log("Se dio de alta correctamente");
-            // return await res.json();       
+            const res =  await fetch(`${url}productos/nuevo-producto`,options)
+            const response = await res.json();
+            
+            if(response.isOk === false){
+                notificationModal('Ocurrió un error al dar el alta del producto.','','error');
+                resetForm();
+                return
+            }
+            notificationModal("Tu producto fue dado de alta.","Producto creado.","success");
+            resetForm();
     
         } catch (error) {        
             console.error(error);
         }
+    }
+    const resetForm = () =>{
+        formRef.current.reset();
+        setFormValues({codigoProd:'',
+                nombre:'',
+                descripcion:"",
+                precio:'',
+                stock:'',
+                codigoColor:[],
+                codigoCategoria:[],
+                imagenes:[]})
+        setSelectedFiles([])
+        setCategoriasSeleccionadas([])
+        setColoresSeleccionados([])
     }
     
     return(
@@ -155,7 +173,7 @@ const AbmProducts = () => {
             <div className="container py-4 mt-3">
             <div className="row d-flex justify-content-center">
                 <div className="col-md-8 border rounded-3">
-                    <form className="form-signin p-3" onSubmit={crearProducto}>
+                    <form className="form-signin p-3" onSubmit={crearProducto} ref={formRef}>
                         <h1  className="h3 mb-3 text-start font-weight-normal">Cargue los datos del nuevo producto</h1>
 
                         {/* CODIGO */}
