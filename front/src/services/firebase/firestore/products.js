@@ -18,6 +18,23 @@ export const getProducts = (categoryId) => {
     })
 }
 
+export const getProductsDB = () =>{
+    return new Promise((res,rej) =>{
+        const url = process.env.REACT_APP_url_server_local;
+        fetch(`${url}productos`)
+          .then(
+            response => response.json()
+            )
+          .then(
+                data => {
+                    //console.log(data.content);
+                    res(data.content);
+            }).catch(error =>{
+                rej(error)
+            })
+        });
+}
+
 export const getProductById = (productId) => {    
     return new Promise((res,rej) => {
 

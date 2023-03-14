@@ -1,16 +1,16 @@
 import './Item.css'
 import { Link } from 'react-router-dom'
-const Item = ({id, name, img, price})=>{
+const Item = ({codigo, nombre, imagenes, precio})=>{
     return(
         <div className="col">
             <div className="card h-100">
-                <img src={img} className="card-img-top" alt={img}/>
+                <img src={`${process.env.REACT_APP_url_server_local}${imagenes[0].path_img}`} className="card-img-top" alt={`${nombre}-img`}/>
                 <div className="card-body">
-                    <h5 className="card-title">{name}</h5>
-                    <p className="card-text">${price}</p>
+                    <h5 className="card-title">{nombre}</h5>
+                    <p className="card-text">${precio}</p>
                 </div>
                 <div className="card-footer">
-                    <Link to={`/detail/${id}`} className="btn btn-detalle">Ver detalle</Link>
+                    <Link to={`/detail/${codigo}`} className="btn btn-detalle">Ver detalle</Link>
                 </div>
             </div>
         </div>        

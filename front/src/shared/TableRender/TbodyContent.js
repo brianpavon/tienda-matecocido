@@ -11,7 +11,7 @@ const TbodyContent = ({element,keys,actions}) =>{
         const minutos = fecha.getMinutes().toString().padStart(2, '0');
         return `${dia}/${mes}/${anio} ${horas}:${minutos}`
     }
-    console.log(keys);
+    
     return(   
         <tr>
             { keys.map(key => key==='imagenes' ? <td className="align-middle" key={`img-${key}`}><img width="40" height="50" src={process.env.REACT_APP_url_server_local+element[key][0].path_img} alt="img-edit"/></td> : '')}

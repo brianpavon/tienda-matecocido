@@ -12,7 +12,7 @@ const ProductsPrincipal = () => {
             )
           .then(
                 data => {
-                    console.log(data.content);
+                    //console.log(data.content);
                     setData(data.content);
             });
     }, []);
