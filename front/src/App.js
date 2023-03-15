@@ -3,7 +3,6 @@ import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import AppRouter from './routes/AppRouter';
-import { AuthProvider } from './context/AuthContext';
 
 function App() {
   

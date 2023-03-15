@@ -3,7 +3,6 @@ import "./Navbar.css";
 import { Link } from 'react-router-dom';
 import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../context/CartContext";
-import { useAuth } from "../../context/AuthContext";
 
 const Navbar = () => {
     const {totalProducts} = useContext(CartContext);
@@ -38,7 +37,10 @@ const Navbar = () => {
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         {categoriasDB.map(categ => <Link key={categ.codigo} to={`categorias/${categ.codigo}`} className="nav-link active">{categ.nombre}</Link>)}
                     </ul>
-                    <Link className="link-navbar d-none d-sm-block" to='/cart'> <CartWidget totalProducts={totalProducts}/></Link>
+                    
+                    
+                    
+                    <Link className="link-navbar" to='/cart'> <CartWidget totalProducts={totalProducts}/></Link>
                 </div>
             </div>
         </nav>
