@@ -43,4 +43,8 @@ class Producto extends Model
                                 ->get();
     }
 
+    public static function getProductByCode($cod){
+        return Producto::where('codigo',$cod)->first();
+    }
+
 }

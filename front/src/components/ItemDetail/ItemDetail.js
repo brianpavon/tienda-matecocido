@@ -3,7 +3,7 @@ import { CartContext } from "../../context/CartContext";
 import { useContext,useState } from "react";
 
 
-const ItemDetail = ({id,name, img, price,description,stock}) =>{
+const ItemDetail = ({id,name, img, price,description}) =>{
     const [quantity,setQuantity] = useState(0);
     
     const {addItem} = useContext(CartContext);

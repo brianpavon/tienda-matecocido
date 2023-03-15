@@ -40,6 +40,21 @@ class ProductosController
         return $response;
     }
 
+    //Devuele un producto de acuerdo a su código
+    public function obtenerProductoPorCodigo(Request $request,Response $response, $args){
+        $cod = $args['codProd'];
+        try {
+            $producto = Producto::getProductByCode($cod);
+            $producto->imagenes;
+            $response->getBody()->write(GenericResponse::obtain(true,'Se muestra el producto',$producto));
+            $response->withStatus(200);
+        } catch (\Throwable $th) {
+            $response->getBody()->write(GenericResponse::obtain(false,$th->getMessage()));
+            $response->withStatus(500);
+        }
+        return $response;
+    }
+
     //Crea un nuevo producto
     public function nuevoProducto(Request $request,Response $response){
         try {            

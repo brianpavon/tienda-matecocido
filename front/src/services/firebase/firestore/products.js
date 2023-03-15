@@ -20,7 +20,7 @@ export const getProducts = (categoryId) => {
 
 export const getProductsDB = (codCateg) =>{
     return new Promise((res,rej) =>{
-        const url = codCateg ? `${process.env.REACT_APP_url_server_local}productos/${codCateg}` : `${process.env.REACT_APP_url_server_local}productos`;
+        const url = codCateg ? `${process.env.REACT_APP_url_server_local}productos/producto-categoria/${codCateg}` : `${process.env.REACT_APP_url_server_local}productos`;
         //console.log(url);
         fetch(url)
           .then(
@@ -31,6 +31,25 @@ export const getProductsDB = (codCateg) =>{
                     //console.log(data.content);
                     res(data.content);
             }).catch(error =>{
+                console.log(error);
+                rej(error)
+            })
+        });
+}
+
+export const getProductByCode = (productCode) => {    
+    return new Promise((res,rej) =>{
+        const url = `${process.env.REACT_APP_url_server_local}productos/${productCode}`;        
+        fetch(url)
+          .then(
+            response => response.json()
+            )
+          .then(
+                data => {
+                    //console.log(data.content);
+                    res(data.content);
+            }).catch(error =>{
+                //console.log(error);
                 rej(error)
             })
         });

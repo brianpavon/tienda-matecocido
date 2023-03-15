@@ -2,17 +2,20 @@ import { useParams } from "react-router-dom";
 import Spinner from '../Spinner/Spinner'
 import ItemDetail from "../ItemDetail/ItemDetail";
 import { useAsync } from "../../hooks/useAsync";
-import { getProductById,getProductsDB } from "../../services/firebase/firestore/products";
+import { getProductById,getProductByCode } from "../../services/firebase/firestore/products";
 import { notificationModal } from "../../notification/NotificationService";
 
 const ItemDetailContainer = ()=>{    
     //console.log(getProductsDB());
-    const { productId } = useParams()
-    //const productsDB = () => getProductsDB();
-    const productById = () => getProductById(productId);
-    //const {data:product,error,loading} = useAsync(productsDB,[]);
-    const {data:product,error,loading} = useAsync(productById,[productId]);
-    //console.log(data);
+    const { productCode } = useParams()
+    
+    // const productById = () => getProductById(productId);    
+    // const {data:product,error,loading} = useAsync(productById,[productId]);
+    
+    const productByCode = () => getProductByCode(productCode);
+    
+    const {data:product,error,loading} = useAsync(productByCode,[productCode]);
+    
     if(loading) {
        return (
             <Spinner/>

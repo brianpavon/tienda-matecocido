@@ -10,7 +10,7 @@ const Item = ({codigo, nombre, imagenes, precio})=>{
                     <p className="card-text">${precio}</p>
                 </div>
                 <div className="card-footer">
-                    <Link to={`/detail/${codigo}`} className="btn btn-detalle">Ver detalle</Link>
+                    <Link to={`/detalle/${codigo}`} className="btn btn-detalle">Ver detalle</Link>
                 </div>
             </div>
         </div>        
