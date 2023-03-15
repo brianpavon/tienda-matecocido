@@ -1,14 +1,26 @@
 import CartWidget from "../CartWidget/CartWidget";
 import "./Navbar.css";
 import { Link } from 'react-router-dom';
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 
 const Navbar = () => {
     const {totalProducts} = useContext(CartContext);
     const {user, closeSession} = useAuth();
-
+    const [categoriasDB, setCategoriasDB] = useState([]);
+    const url = process.env.REACT_APP_url_server_local;
+    useEffect(() => {
+        fetch(`${url}categorias`)
+          .then(
+            response => response.json()
+            )
+          .then(
+                data => {
+                    //console.log(data.content);
+                    setCategoriasDB(data.content);
+            });
+    }, []);
     return (
         <nav className="navbar navbar-expand-lg navbar-colour">
             
@@ -24,15 +36,7 @@ const Navbar = () => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
-                            <Link to='/category/tazas' className="nav-link active">Tazas</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to='/category/hogar-deco' className="nav-link active">Hogar & Deco</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to='/category/combos' className="nav-link active">Combos</Link>
-                        </li>                        
+                        {categoriasDB.map(categ => <Link key={categ.codigo} to={`categorias/${categ.codigo}`} className="nav-link active">{categ.nombre}</Link>)}
                     </ul>
                     <Link className="link-navbar d-none d-sm-block" to='/cart'> <CartWidget totalProducts={totalProducts}/></Link>
                 </div>

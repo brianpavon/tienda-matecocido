@@ -18,10 +18,11 @@ export const getProducts = (categoryId) => {
     })
 }
 
-export const getProductsDB = () =>{
+export const getProductsDB = (codCateg) =>{
     return new Promise((res,rej) =>{
-        const url = process.env.REACT_APP_url_server_local;
-        fetch(`${url}productos`)
+        const url = codCateg ? `${process.env.REACT_APP_url_server_local}productos/${codCateg}` : `${process.env.REACT_APP_url_server_local}productos`;
+        //console.log(url);
+        fetch(url)
           .then(
             response => response.json()
             )

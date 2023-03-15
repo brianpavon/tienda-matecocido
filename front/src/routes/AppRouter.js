@@ -38,7 +38,7 @@ const AppRouter = ()=>{
             </Route>
             
             <Route path='/' element={<ItemListContainer greeting={"Todas nuestras piezas"}/>} />
-            <Route path='/category/:categoryId' element={<ItemListContainer/>} />
+            <Route path='/categorias/:codCateg' element={<ItemListContainer/>} />
             <Route path='/detail/:productId' element={<ItemDetailContainer/>} />
             {/* <Route path='/cart' element={<CartContainer/>} />
             <Route path='/checkout' element={<Checkout/>} />
