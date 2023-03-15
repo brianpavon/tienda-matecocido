@@ -17,6 +17,7 @@ import Reports from '../components/Dashboard/Reports/Reports';
 import Sections from '../components/Dashboard/Sections/Sections';
 import ProductsPrincipal from '../components/Dashboard/Products/ProductsPrincipal';
 
+
 const AppRouter = ()=>{
     //const { user } = useAuth();
     const location = useLocation();
