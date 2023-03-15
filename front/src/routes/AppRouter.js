@@ -4,6 +4,7 @@ import ItemDetailContainer from '../components/ItemDetailContainer/ItemDetailCon
 import Checkout from '../components/Checkout/Checkout';
 import CartContainer from '../components/CartContainer/CartContainer';
 
+
 const AppRouter = ()=>{
     //const { user } = useAuth();
     const location = useLocation();
