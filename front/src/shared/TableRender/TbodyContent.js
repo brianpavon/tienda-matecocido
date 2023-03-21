@@ -15,12 +15,12 @@ const TbodyContent = ({element,keys,actions}) =>{
     return(   
         <tr>
             { keys.map(key => key==='imagenes' ? <td className="align-middle" key={`img-${key}`}><img width="40" height="50" src={process.env.REACT_APP_url_server_local+element[key][0].path_img} alt="img-edit"/></td> : '')}
-            { keys.map(key => key==='imagenes' ? '' : <td className="align-middle" key={key}>{(key === "updated_at") ? formatFecha(element[key]) : element[key]}</td>)}
+            { keys.map(key => key==='imagenes' ? '' : <td className="align-middle" key={`td${element[key]}`}>{(key === "updated_at") ? formatFecha(element[key]) : element[key]}</td>)}
             {
                 (actions) 
                 ? 
-                    <td className="bg-light">
-                        <Link className="btn btn-sm" title="Editar">
+                    <td className="bg-light">                        
+                        <Link className="btn btn-sm" title="Editar" to={`/backoffice/productos/editar-producto/${element['codigo']}`} state={element}>
                             <img width="20" height="20" src="../images/edit-icon.png" alt="img-edit"/>
                         </Link>
                         <Link className="btn btn-sm" title="Borrar">

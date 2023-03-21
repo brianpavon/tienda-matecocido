@@ -12,4 +12,6 @@ class Color extends Model{
         'nombre',
         'path_img'
     ];
+
+    protected $hidden = ['id_color','created_at'];
 }

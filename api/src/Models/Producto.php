@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Models\ProductoImagen;
 use Models\ProductoCategoria;
 use Models\Categoria;
+use Models\Color;
 
 class Producto extends Model
 {
@@ -34,6 +35,11 @@ class Producto extends Model
     public function categorias()
     {
         return $this->belongsToMany(Categoria::class, 'productos_categorias', 'id_prod', 'id_categ');
+    }
+    
+    public function colores()
+    {
+        return $this->belongsToMany(Color::class, 'productos_colores', 'id_prod', 'id_color');
     }
 
     public static function getProductosPorCategoria($codCateg){

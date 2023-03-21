@@ -21,7 +21,9 @@ class ProductosController
     {
         $productos = Producto::get();
         foreach ($productos as $producto) {
-            $producto->imagenes;            
+            $producto->imagenes;
+            $producto->categorias;
+            $producto->colores;
         }        
         $response->getBody()->write(GenericResponse::obtain(true,'Todos los productos',$productos,));
         return $response;
@@ -35,6 +37,7 @@ class ProductosController
 
         foreach ($productos as $producto) {
             $producto->imagenes;
+            $producto->categorias;
         }        
         $response->getBody()->write(GenericResponse::obtain(true,'Todos los productos',$productos,));
         return $response;
@@ -46,6 +49,7 @@ class ProductosController
         try {
             $producto = Producto::getProductByCode($cod);
             $producto->imagenes;
+            $producto->categorias;
             $response->getBody()->write(GenericResponse::obtain(true,'Se muestra el producto',$producto));
             $response->withStatus(200);
         } catch (\Throwable $th) {

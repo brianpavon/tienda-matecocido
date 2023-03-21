@@ -1,28 +1,29 @@
 import { useEffect,useRef,useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useLocation,useParams } from "react-router-dom";
 import { notificationModal } from "../../../notification/NotificationService";
 import './Products.css';
 
 const AbmProducts = () => {
+    const { codProd } = useParams();
+    const { state } = useLocation();
+    const producto = state;
+    const fileInput = useRef(null);
+    const formRef = useRef(null);    
+
     const url = process.env.REACT_APP_url_server_local;
     const [categorias, setCategorias] = useState([]);
     const [colores, setColores] = useState([]);
     const [formValues, setFormValues] = useState({
-        codigoProd:'',
-        nombre:'',
-        descripcion:"",
-        precio:'',
-        stock:'',
-        codigoColor:[],
-        codigoCategoria:[],
-        imagenes:[]
+        codigoProd: producto ? producto.codigo : '',
+        nombre:producto ? producto.nombre : '',
+        descripcion:producto ? producto.descripcion : "",
+        precio:producto ? producto.precio : '',
+        stock:producto ? producto.stock : '',
+        codigoColor:producto ? producto.colores.map(color=>color.codigo) : [],
+        codigoCategoria:producto ? producto.categorias.map(categ=> categ.codigo) : [],
+        imagenes: producto ? arrayDeImagenes(producto.imagenes) : []
     });
-    const [selectedFiles, setSelectedFiles] = useState([]);
-    const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
-    const [coloresSeleccionados, setColoresSeleccionados] = useState([]);    
-    const fileInput = useRef(null);
-    const formRef = useRef(null);
-        
+
     useEffect(() => {
         fetch(`${url}categorias`)
           .then(
@@ -53,64 +54,82 @@ const AbmProducts = () => {
     const handleChangeValue = (event) => {
         const {name, value} = event.target;        
         setFormValues({...formValues,[name]:value});
-    }
-
-    const handleSelectCategoria = (event) => {
-        const opcionCateg = event.target;
-        const codCateg = opcionCateg.value;
+    }    
+    
+    const handleSelect = (event,attr) => {
+        const opcion = event.target;
+        const cod = opcion.value;
        
-        if(opcionCateg.checked){
-            setCategoriasSeleccionadas(prev => [...prev,codCateg])
-        }else{
-            const selectCategs = categoriasSeleccionadas.filter(categ => categ !== codCateg );
-            setCategoriasSeleccionadas(selectCategs);
-        }        
-    };
-
-
-    const handleSelectColor = (event) => {
-        const opcionColor = event.target;
-        const codColor = opcionColor.value;
-       
-        if(opcionColor.checked){
-            setColoresSeleccionados(prev => [...prev,codColor])
-        }else{
-            const selectColores = coloresSeleccionados.filter(color => color !== codColor );
-            setColoresSeleccionados(selectColores);
-        }
+        setFormValues(prev => {
+            if (opcion.checked) {
+              
+              const nuevasOpciones = [...prev[attr], cod];
+              return {...prev, [attr]: nuevasOpciones};
+            } else {
+              
+              const opcionesActualizadas = prev[attr].filter(attr => attr !== cod);
+              return {...prev, [attr]: opcionesActualizadas};
+            }
+        });
     };
       
-    const handleUploadImage = event => {
+    const handleUploadImage = (event) => {
         const filesUpload = event.target.files
-        const newImages = Array.from(filesUpload).filter(file => !selectedFiles.some(image => image.name === file.name));
-        const imgsRepet = Array.from(filesUpload).filter(file => selectedFiles.some(image => image.name === file.name));
+        const newImages = Array.from(filesUpload).filter(file => !formValues.imagenes.some(image => image.name === file.name));
+        const imgsRepet = Array.from(filesUpload).filter(file => formValues.imagenes.some(image => image.name === file.name));
         if(imgsRepet.length > 0){
-
             notificationModal(`Estas intentando subir imágenes que ya elegiste: ${imgsRepet.map(image => image.name).join(', ')}`);
-        }
-        setSelectedFiles(prev=>[...prev,...newImages]);
+        }        
+        setFormValues(prev=> {
+            const imagenes = [...prev.imagenes,...newImages]
+            actualizarInputImg(imagenes);
+            return {...prev,imagenes:imagenes}            
+        })
     };
 
     const deleteImagen = (fileToDel) =>{
+        setFormValues(prev=> {
+            const imagenesActualizadas = prev.imagenes.filter(file => file.name !== fileToDel)
+            actualizarInputImg(imagenesActualizadas);
+            return {...prev,imagenes:imagenesActualizadas}            
+        })
+    }
 
-        const filesUpdated = selectedFiles.filter(file => file.name !== fileToDel)
-        setSelectedFiles(filesUpdated);
+    function arrayDeImagenes(array){
+        const arImgs = []
+        array.forEach(async(img) => {            
+            const file = await getFileFromUrl(`${process.env.REACT_APP_url_server_local}${img.path_img}`,img.nombre)
+            arImgs.push(file)            
+        })
+        
+        return arImgs
+    }
+
+    async function getFileFromUrl(url, name){
+        const response = await fetch(url);
+        const data = await response.blob();
+        return new File([data], name, {
+          type: 'image/jpeg',
+        });
     }
     
-    useEffect(()=>{
-        setFormValues(prev=> ({...prev,codigoCategoria:categoriasSeleccionadas,codigoColor:coloresSeleccionados,imagenes:selectedFiles}))
-        const dataTransfer = new DataTransfer();
-        
-        selectedFiles.forEach(file =>{
+    function actualizarInputImg(array){
+        const dataTransfer = new DataTransfer();        
+        array.forEach(file =>{
             dataTransfer.items.add(file);
         })
         fileInput.current.files = dataTransfer.files;
-        
-    },[categoriasSeleccionadas,coloresSeleccionados,selectedFiles])
+    }
+
+    const editarProducto = async(event) =>{
+        event.preventDefault();
+        console.log('editando');
+    }
     
     const crearProducto = async(event) => {
         //console.log('en crear el producto');
         event.preventDefault();
+        
         const formData = new FormData();
         
         for (const clave in formValues) {
@@ -127,6 +146,11 @@ const AbmProducts = () => {
             method: "POST",
             body: formData
         };
+        
+        // for (const [key, value] of formData.entries()) {
+        //     console.log(`${key}: ${value}`);
+        // }
+        
         try {
             const res =  await fetch(`${url}productos/nuevo-producto`,options)
             const response = await res.json();
@@ -143,6 +167,7 @@ const AbmProducts = () => {
             console.error(error);
         }
     }
+    
     const resetForm = () =>{
         formRef.current.reset();
         setFormValues({codigoProd:'',
@@ -152,16 +177,14 @@ const AbmProducts = () => {
                 stock:'',
                 codigoColor:[],
                 codigoCategoria:[],
-                imagenes:[]})
-        setSelectedFiles([])
-        setCategoriasSeleccionadas([])
-        setColoresSeleccionados([])
+                imagenes:[]}
+            )        
     }
     
     return(
         <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-              <h1 className="h2">Alta de Producto</h1>
+              <h1 className="h2">{codProd ? 'Editar producto' : 'Alta de producto'}</h1>
               <div className="btn-toolbar mb-2 mb-md-0">
                 <div className="btn-group me-2">
                   <Link to="/backoffice/productos" className="btn btn-sm btn-dark">                    
@@ -173,7 +196,7 @@ const AbmProducts = () => {
             <div className="container py-4 mt-3">
             <div className="row d-flex justify-content-center">
                 <div className="col-md-8 border rounded-3">
-                    <form className="form-signin p-3" onSubmit={crearProducto} ref={formRef}>
+                    <form className="form-signin p-3" onSubmit={codProd ? editarProducto : crearProducto} ref={formRef}>
                         <h1  className="h3 mb-3 text-start font-weight-normal">Cargue los datos del nuevo producto</h1>
 
                         {/* CODIGO */}
@@ -222,12 +245,23 @@ const AbmProducts = () => {
                             <label className="col-sm-3 col-form-label">Categorías del producto:</label>
                             <div className="col-sm-4">
                                 <div className="border-bottom">
-                                    <ul className="ulCheckbox list-group text-start">
-                                        {categorias.map(cat => 
-                                            <li key={cat.codigo} className="list-group-item">
-                                                <input className="form-check-input me-2" type="checkbox" value={cat.codigo} onChange={handleSelectCategoria}></input>
-                                                {cat.nombre}
-                                            </li>)
+                                    <ul className="ulCheckbox list-group text-start">                                        
+                                        {
+                                            producto
+                                            ?
+                                            categorias.map(cat =>
+                                                <li key={cat.codigo} className="list-group-item">
+                                                    <input className="form-check-input me-2" type="checkbox" value={cat.codigo} onChange={(event)=>handleSelect(event,'codigoCategoria')} checked={formValues.codigoCategoria.some(prodCateg => prodCateg === cat.codigo)}></input>
+                                                    {cat.nombre}
+                                                </li>
+                                            )
+                                            :
+                                            categorias.map(cat =>
+                                                <li key={cat.codigo} className="list-group-item">
+                                                    <input className="form-check-input me-2" type="checkbox" value={cat.codigo} onChange={(event)=>handleSelect(event,'codigoCategoria')}></input>
+                                                    {cat.nombre}
+                                                </li>
+                                            )
                                         }
                                     </ul>
                                 </div>                            
@@ -241,13 +275,23 @@ const AbmProducts = () => {
                                 <div className="border-bottom">
                                     <ul className="list-group text-start align-middle">
                                     {
+                                        producto
+                                        ?
                                         colores.map( color =>
                                             <li key={color.codigo} className="list-group-item">
-                                                <input className="form-check-input me-2" type="checkbox" value={color.codigo} onChange={handleSelectColor}></input>
+                                                <input className="form-check-input me-2" type="checkbox" value={color.codigo} onChange={(event)=>handleSelect(event,'codigoColor')} checked={formValues.codigoColor.some(codColor => codColor === color.codigo)}></input>
                                                 {color.nombre}                                            
                                                 <img className="ps-2" src={color.path_img} alt={`color_${color.nombre}`}/>                                            
                                             </li>
-                                            )
+                                        )
+                                        :
+                                        colores.map( color =>
+                                            <li key={color.codigo} className="list-group-item">
+                                                <input className="form-check-input me-2" type="checkbox" value={color.codigo} onChange={(event)=>handleSelect(event,'codigoColor')}></input>
+                                                {color.nombre}                                            
+                                                <img className="ps-2" src={color.path_img} alt={`color_${color.nombre}`}/>                                            
+                                            </li>
+                                        )
                                     }
                                     </ul>
                                 </div>
@@ -264,15 +308,18 @@ const AbmProducts = () => {
                         
                         <div className="mb-3 row">
                                     
-                            {selectedFiles.map(file => (
-                                <div key={`${file.name}-div`} className="col mt-2 position-relative">
-                                    <button key={`${file.name}-btn`} type="button" className="btn-close position-absolute top-0" aria-label="Close" onClick={() => deleteImagen(file.name)}></button>
-                                    <img key={`${file.name}-img`} className="rounded" width="100" height="100" src={URL.createObjectURL(file)} alt="img"/>
-                                </div>
-                            ))}                           
+                            {
+                                formValues.imagenes.map(file => (
+                                   
+                                    <div key={`${file.name}-div`} className="col mt-2 position-relative">
+                                        <button key={`${file.name}-btn`} type="button" className="btn-close position-absolute top-0" aria-label="Close" onClick={() => deleteImagen(file.name)}></button>
+                                        <img key={`${file.name}-img`} className="rounded" width="100" height="100" src={URL.createObjectURL(file)} alt="img"/>
+                                    </div>
+                                ))
+                            }                           
                         </div>
 
-                        <button className="btn btn-dark btn-block mt-2 m-2" type="submit">Crear el Producto</button>
+                        <button className="btn btn-dark btn-block mt-2 m-2" type="submit">{codProd ? 'Editar el producto':'Crear el Producto'}</button>
                     </form>
                 </div>
             </div>

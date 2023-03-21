@@ -31,6 +31,7 @@ const AppRouter = ()=>{
             <Route path='/backoffice/' element={<DashboardGuard/>}>
                 <Route path='' element={<Dashboard/>}/>
                 <Route path='productos/nuevo-producto' element={<AbmProducts/>}/>
+                <Route path='productos/editar-producto/:codProd' element={<AbmProducts/>}/>
                 <Route path='productos' element={<ProductsPrincipal/>}/>
                 <Route path='ordenes-compra' element={<OrdersCustomers/>}/>
                 <Route path='clientes' element={<Customers/>}/>
