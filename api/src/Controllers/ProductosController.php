@@ -342,8 +342,41 @@ class ProductosController
         return $response;
     }
 
-    private function updateAttributes(){
+    public function deleteProduct(Request $request,Response $response,$args){
+        try {
+            //HAY QUE ARMAR LA LOGICA PARA QUE SOLO PUEDA BORRAR UN ADMIN, ES DECIR NOS ENVIEN EL TOKEN DE ADMIN
 
+            $productToDelete = Producto::getProductByCode($args['cod']);
+            if($productToDelete){
+                //borramos las categorias
+                foreach ($productToDelete->productCategories as $prodCateg) {
+                    $prodCateg->delete();
+                }
+                //borramos las imagenes
+                foreach ($productToDelete->productColor as $prodColor) {
+                    $prodColor->delete();
+                }
+                //borramos las imagenes
+                $productFolder = $_ENV["PATH_UPLOAD_IMAGES"].$productToDelete->codigo.'/';
+                foreach ($productToDelete->imagenes as $img) {
+                    $nameImg = $img->nombre;
+                    $path = $productFolder.$nameImg;
+
+                    if(file_exists($path)){
+                        unlink($path);
+                    }
+                    $img->delete();
+                }
+                $productToDelete->delete();
+            }
+            
+            $response->getBody()->write(GenericResponse::obtain(true,'Se elimino el producto.',$productToDelete));
+            $response->withStatus(200);
+        } catch (\Throwable $th) {
+            $response->getBody()->write(GenericResponse::obtain(false,$th->getMessage()));
+            $response->withStatus(500);
+        }
+        return $response;
     }
 
 }

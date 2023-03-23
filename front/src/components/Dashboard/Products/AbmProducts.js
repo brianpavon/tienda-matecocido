@@ -1,5 +1,5 @@
 import { useEffect,useRef,useState } from "react";
-import { Link,useLocation,useParams } from "react-router-dom";
+import { Link,useLocation,useNavigate,useParams } from "react-router-dom";
 import { notificationModal } from "../../../notification/NotificationService";
 import './Products.css';
 
@@ -8,7 +8,8 @@ const AbmProducts = () => {
     const { state } = useLocation();
     const producto = state;
     const fileInput = useRef(null);
-    const formRef = useRef(null);    
+    const formRef = useRef(null);
+    const navigate = useNavigate();
 
     const url = process.env.REACT_APP_url_server_local;
     const [categorias, setCategorias] = useState([]);
@@ -194,6 +195,7 @@ const AbmProducts = () => {
             if(response.isOk === false){
                 notificationModal('Ocurrió un error al dar el alta del producto.','','error');
                 resetForm();
+                navigate("/backoffice/productos");
                 return
             }
             notificationModal("Tu producto fue dado de alta.","Producto creado.","success");
