@@ -123,7 +123,43 @@ const AbmProducts = () => {
 
     const editarProducto = async(event) =>{
         event.preventDefault();
-        console.log('editando');
+        //console.log('editando');
+        const formData = new FormData();
+        
+        for (const clave in formValues) {
+            if(clave !== 'imagenes'){
+                formData.append(clave,formValues[clave]);
+            }
+        }
+
+        formValues.imagenes.forEach((imagen, index) => {           
+            formData.append(`imagenes_${index}`, imagen);
+        });
+
+        const options = {
+            method: "POST",
+            body: formData
+        };
+        
+        // for (const [key, value] of formData.entries()) {
+        //     console.log(`${key}: ${value}`);
+        // }
+        
+        try {
+            const res =  await fetch(`${url}productos/editar-producto/${codProd}`,options)
+            const response = await res.json();
+            
+            if(response.isOk === false){
+                notificationModal('Ocurrió un error al editar el producto.','','error');
+                resetForm();
+                return
+            }
+            notificationModal("Tu producto fue editado.","Producto editado.","success");
+            resetForm();
+    
+        } catch (error) {        
+            console.error(error);
+        }
     }
     
     const crearProducto = async(event) => {
