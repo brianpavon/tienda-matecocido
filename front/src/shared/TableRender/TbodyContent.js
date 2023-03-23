@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
+import { modalDelete } from "../../notification/NotificationService";
 
-const TbodyContent = ({element,keys,actions}) =>{
+const TbodyContent = ({element,keys,actions,functionDelete}) =>{
     
     const formatFecha = (fechaToformat) =>{        
         const fecha = new Date(fechaToformat);
@@ -10,6 +11,15 @@ const TbodyContent = ({element,keys,actions}) =>{
         const horas = fecha.getHours().toString().padStart(2, '0');
         const minutos = fecha.getMinutes().toString().padStart(2, '0');
         return `${dia}/${mes}/${anio} ${horas}:${minutos}`
+    }
+
+    const sureToDelete = async() => {
+        //console.log(element['codigo']);
+        const code = element.codigo;
+        const confirm = await modalDelete('el producto');
+        if(confirm){
+            functionDelete(code)
+        }
     }
     
     return(   
@@ -23,9 +33,9 @@ const TbodyContent = ({element,keys,actions}) =>{
                         <Link className="btn btn-sm" title="Editar" to={`/backoffice/productos/editar-producto/${element['codigo']}`} state={element}>
                             <img width="20" height="20" src="../images/edit-icon.png" alt="img-edit"/>
                         </Link>
-                        <Link className="btn btn-sm" title="Borrar">
+                        <button className="btn btn-sm" title="Borrar" onClick={sureToDelete}>
                             <img width="20" height="20" src="../images/remove-icon.png" alt="img-remove"/>
-                        </Link>
+                        </button>
                     </td> 
                 : 
                     ''

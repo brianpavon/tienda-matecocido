@@ -31,5 +31,24 @@ export const notificationToast = (title) =>{
        icon: 'success',
        title
      })
-}  
+}
+
+export const modalDelete = async(elementToDel) =>{
+  return new Promise((resolve, reject) => {
+    Swal.fire({
+      title: `¿Quieres borrar ${elementToDel}?`,
+      text: `Esto eliminará definitivamente ${elementToDel}`,
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      cancelButtonColor: '#d33',
+      confirmButtonColor: '#bde0f5',
+      confirmButtonText: 'Borrar'
+    }).then((result) => {      
+      resolve(result.isConfirmed);      
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+}
     

@@ -1,21 +1,48 @@
 import { useEffect, useState } from 'react'
 import TableRender from '../../../shared/TableRender/TableRender';
 import { Link } from 'react-router-dom';
+import { notificationModal } from '../../../notification/NotificationService';
 
 const ProductsPrincipal = () => {
     const [data, setData] = useState([]);
     const url = process.env.REACT_APP_url_server_local;
+
+    const loadProducts = () =>{
+      fetch(`${url}productos`)
+        .then(
+          response => response.json()
+          )
+        .then(
+              data => {
+                  //console.log(data.content);
+                  setData(data.content);
+        });      
+    }
+    
     useEffect(() => {
-        fetch(`${url}productos`)
-          .then(
-            response => response.json()
-            )
-          .then(
-                data => {
-                    //console.log(data.content);
-                    setData(data.content);
-            });
+      loadProducts();
     }, []);
+
+    const deleteProduct = async(cod) => {
+      const options = {
+          method: "DELETE"
+      };
+      
+      try {
+          const res =  await fetch(`${url}productos/eliminar-producto/${cod}`,options)
+          const response = await res.json();
+          
+          if(response.isOk === false){
+              notificationModal('Ocurrió un error al intentar borrar el producto.','','error');
+              return
+          }
+          notificationModal("","Producto borrado.","success");
+          loadProducts();
+  
+      } catch (error) {        
+          console.error(error);
+      }
+    }
     
     
     return(
@@ -31,7 +58,7 @@ const ProductsPrincipal = () => {
                 </div>                
               </div>
             </div>
-            { (data.length > 0) ?<TableRender element="prod" key="table-products" elements={data} haveActions={true}/> : ''}
+            { (data.length > 0) ?<TableRender element="prod" key="table-products" elements={data} haveActions={true} functionToDelete={deleteProduct}/> : ''}
         </div>
     )
 }
