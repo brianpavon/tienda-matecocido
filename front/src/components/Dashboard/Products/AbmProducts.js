@@ -197,7 +197,7 @@ const AbmProducts = () => {
             <div className="row d-flex justify-content-center">
                 <div className="col-md-8 border rounded-3">
                     <form className="form-signin p-3" onSubmit={codProd ? editarProducto : crearProducto} ref={formRef}>
-                        <h1  className="h3 mb-3 text-start font-weight-normal">Cargue los datos del nuevo producto</h1>
+                        <h1  className="h3 mb-3 text-start font-weight-normal">{codProd ? 'Edite el producto' : 'Cargue los datos del nuevo producto'}</h1>
 
                         {/* CODIGO */}
                         <div className="mb-3 row text-end">

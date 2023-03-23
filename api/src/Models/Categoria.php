@@ -15,4 +15,8 @@ class Categoria extends Model
     ];
     protected $hidden = ['id_categ','created_at'];
 
+    public static function getCategoryIdByCode($code){
+        $category = Categoria::where('codigo',$code)->first();
+        return $category->id_categ;
+    }
 }

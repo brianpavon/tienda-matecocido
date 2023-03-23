@@ -17,8 +17,7 @@ use Models\ProductoImagen;
 class ProductosController
 {
     //Devuelve todos los productos
-    public function obtenerProductos(Request $request,Response $response)
-    {
+    public function obtenerProductos(Request $request,Response $response){
         $productos = Producto::get();
         foreach ($productos as $producto) {
             $producto->imagenes;
@@ -30,8 +29,7 @@ class ProductosController
     }
     
     //Devuelve todos los productos
-    public function obtenerProductosPorCategoria(Request $request,Response $response,$args)
-    {
+    public function obtenerProductosPorCategoria(Request $request,Response $response,$args){
         $categ = $args['categoria'];
         $productos = Producto::getProductosPorCategoria($categ);
 
@@ -50,6 +48,7 @@ class ProductosController
             $producto = Producto::getProductByCode($cod);
             $producto->imagenes;
             $producto->categorias;
+            $producto->colores;
             $response->getBody()->write(GenericResponse::obtain(true,'Se muestra el producto',$producto));
             $response->withStatus(200);
         } catch (\Throwable $th) {
@@ -79,8 +78,9 @@ class ProductosController
             else{
                 //obtengo los ids de las categorias que se cargaron           
                 foreach ($codigosCategoria as $codCategoria) {
-                    $categ = Categoria::where('codigo',$codCategoria)->first();
-                    $idsCategoria[] = ['idCateg'=>$categ->id_categ];
+                    //$categ = Categoria::where('codigo',$codCategoria)->first();
+                    //$idsCategoria[] = ['idCateg'=>$categ->id_categ];
+                    $idsCategoria[] = ['idCateg'=>Categoria::getCategoryIdByCode($codCategoria)];
                 }
 
                 //obtengo los ids de los colores que se cargaron
@@ -145,6 +145,205 @@ class ProductosController
             $response->withStatus(500);
         }
         return $response;
+    }
+
+    //Editar un producto
+    public function editarProducto(Request $request,Response $response,$args){
+        try {
+            $codigoProd = $args['cod'];            
+            $nuevoCodigoProd = isset($request->getParsedBody()['codigoProd']) ? $request->getParsedBody()['codigoProd'] : '';
+            $nombreProd = isset($request->getParsedBody()['nombre']) ? $request->getParsedBody()['nombre'] : '';
+            $descripcion = isset($request->getParsedBody()['descripcion']) ? $request->getParsedBody()['descripcion'] : '';
+            $precio = isset($request->getParsedBody()['precio']) ? $request->getParsedBody()['precio'] : '';
+            $stock = isset($request->getParsedBody()['stock']) ? $request->getParsedBody()['stock'] : '';
+            $codigosColor = isset($request->getParsedBody()['codigoColor']) ? explode(',',$request->getParsedBody()['codigoColor']) : '';
+            $codigosCategoria = isset($request->getParsedBody()['codigoCategoria']) ? explode(',',$request->getParsedBody()['codigoCategoria']) : '';
+            
+            $imagenes = $request->getUploadedFiles();
+            $seEdito = false;
+
+            $productoDB = Producto::where('codigo',$codigoProd)->first();
+            
+            //Verifico que campos estan distintos para modificar
+            if($productoDB->codigo != $nuevoCodigoProd){
+                $productoDB->codigo = $nuevoCodigoProd;
+                $seEdito = true;
+            }
+            if($productoDB->nombre != $nombreProd){
+                $productoDB->nombre = $nombreProd;
+                $seEdito = true;
+            }
+            if($productoDB->descipcion != $descripcion){
+                $productoDB->descripcion = $descripcion;
+                $seEdito = true;
+            }
+            if($productoDB->precio != $precio){
+                $productoDB->precio = $precio;
+                $seEdito = true;
+            }
+            if($productoDB->stock != $stock){
+                $productoDB->stock = $stock;
+                $seEdito = true;
+            }
+            
+            //Seccion manejo de imagenes
+            $carpetaProducto = $_ENV["PATH_UPLOAD_IMAGES"].$productoDB->codigo.'/';
+            
+            $nombresImgsNuevas = [];
+            $nombresImgsBorrar = [];
+            $nombreImgsDB = [];
+            $nombresImgsEnviadas = [];
+           
+            //guardo los nombres de las imagenes de la db
+            $nombreImgsDB = $productoDB->getImagesName();
+            
+            //guardo los nombres de las imagenes que se envian por petición
+            foreach ($imagenes as $imagen) {
+                
+                array_push($nombresImgsEnviadas,$imagen->getClientFilename());
+            }
+
+            //armo el nuevo array con el nombre de las imagenes que sean nuevas
+            $nombresImgsNuevas = array_values(array_diff($nombresImgsEnviadas,$nombreImgsDB));
+            
+            //armo el array con los nombres de imagenes que hay que borrar
+            $nombresImgsBorrar = array_values(array_diff($nombreImgsDB,$nombresImgsEnviadas));
+            
+            //Si hay nuevas            
+            if(count($nombresImgsNuevas) > 0){
+                
+                for ($i=0; $i < count($nombresImgsNuevas); $i++) {
+
+                    foreach ($imagenes as $imagen) {
+
+                        $nombreImg = $imagen->getClientFilename();
+                        
+                        if($nombreImg == $nombresImgsNuevas[$i]){
+                            $path = $carpetaProducto.$nombreImg;
+                            $imagen->moveTo($path);
+                            ProductoImagen::create([
+                                'id_prod' => $productoDB->id_prod,
+                                'path_img' => $path,
+                                'nombre' => $nombreImg
+                            ]);
+                        }
+                    }
+                }
+            }
+            //Si hubiera que borrar
+            if(count($nombresImgsBorrar) > 0){
+                
+                foreach ($productoDB->imagenes as $imagen) {
+
+                    for ($i=0; $i < count($nombresImgsBorrar); $i++) {
+                        $nameImg = $imagen->nombre;
+                        $path = $carpetaProducto.$nameImg;
+
+                        if($nameImg == $nombresImgsBorrar[$i] && file_exists($path)){
+                            unlink($path);
+                            $imagen->delete();
+                        }
+                    }
+                }
+            }
+
+            //Manejo de categorías
+            
+            //Primero obtengo los ids de las categorias enviadas
+            foreach ($codigosCategoria as $categ) {
+                $idsCategoria[] = Categoria::getCategoryIdByCode($categ);
+            }
+
+            //Obtengo las categorias que tiene el producto en DB
+            $idsCategDB = $productoDB->getIdsCategory();
+            
+            //Obtengo si hay nuevas categorias
+            $newCategs = array_values(array_diff($idsCategoria,$idsCategDB));
+            
+            //Obtengo las que haya que borrar
+            $categsToDelete = array_values(array_diff($idsCategDB,$idsCategoria));
+            
+            //Agregar Categorias
+            if(count($newCategs) > 0){                
+
+                //prod-categ            
+                foreach ($newCategs as $idCateg) {
+                    
+                    ProductoCategoria::create([
+                        'id_prod' => $productoDB->id_prod,
+                        'id_categ' => $idCateg
+                    ]);
+                 }
+            }
+            //Borrar Categorias
+            if(count($categsToDelete) > 0){
+                
+                foreach ($productoDB->productCategories as $categProd) {
+                    for ($i=0; $i < count($categsToDelete); $i++) { 
+                        if($categProd->id_categ == $categsToDelete[$i]){
+                            $categProd->delete();
+                        }
+                    }
+                }
+                
+            }
+
+            //Manejo de colores
+                        
+            //Primero obtengo los ids de las categorias enviadas
+            foreach ($codigosColor as $cod) {
+                $idsColor[] = Color::getIdColorByCode($cod);
+            }
+
+            //Obtengo los colores que tiene el producto en DB            
+            $idsdColorDB = $productoDB->getIdsColor();
+            
+            //Obtengo si hay nuevos colores
+            $newColors = array_values(array_diff($idsColor,$idsdColorDB));
+            
+            //Obtengo los que haya que borrar
+            $colorsToDelete = array_values(array_diff($idsdColorDB,$idsColor));
+            
+            //Agregar Colores
+            if(count($newColors) > 0){
+
+                //prod-color
+                foreach ($newColors as $idColor) {                    
+                    ProductoColor::create([
+                        'id_prod' => $productoDB->id_prod,
+                        'id_color' => $idColor
+                    ]);
+                 }
+            }
+            //Borrar Colores
+            if(count($colorsToDelete) > 0){
+                
+                foreach ($productoDB->productColor as $colorProd) {
+                    
+                    for ($i=0; $i < count($colorsToDelete); $i++) {
+
+                        if($colorProd->id_color == $colorsToDelete[$i]){                            
+                            $colorProd->delete();
+                        }
+                    }
+                }
+                
+            }
+
+            if($seEdito){
+                $productoDB->save();                
+            }
+            $response->getBody()->write(GenericResponse::obtain(true,'Se edito el producto',$productoDB));
+            $response->withStatus(200);
+        } catch (\Throwable $th) {
+            $response->getBody()->write(GenericResponse::obtain(false,$th->getMessage(),$th));
+            $response->withStatus(500);
+        }
+        return $response;
+    }
+
+    private function updateAttributes(){
+
     }
 
 }
