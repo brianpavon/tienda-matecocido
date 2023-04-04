@@ -10,11 +10,11 @@ const Item = ({codigo, nombre, imagenes, precio})=>{
                     imagenes.length > 1
                     ?
                     (
-                        <Carrousel imagenes={imagenes} className="card-img-top"/>
+                        <Carrousel imagenes={imagenes} className="card-img-top" height="100%"/>
                     )
                     :
                     (
-                        <img src={`${process.env.REACT_APP_url_server_local}${imagenes[0].path_img}`} className="card-img-top" alt={`${nombre}-img`}/>
+                        <img src={`${process.env.REACT_APP_url_server_local}${imagenes[0].path_img}`} height="100%" className="card-img-top" alt={`${nombre}-img`}/>
                     )
                 }
                 

@@ -13,6 +13,27 @@ const useProvideAuth = () => {
     const { clearCart } = useContext(CartContext);
     const navigate = useNavigate();
     //console.log(user);
+
+    const registerNewUser= (email,pass) =>{
+        const url = `${process.env.REACT_APP_url_server_local}auth/register`;
+    }
+    const login= (email,pass) =>{
+        const url = `${process.env.REACT_APP_url_server_local}auth/login`;
+        fetch(url)
+        .then(
+            response => response.json()
+        )
+        .then(
+            data => {
+                console.log(data.content);
+                return data.content;
+            }).catch(error =>{
+                console.log(error);
+                return error;
+            }
+        )
+    }
+
     const handleUsers = async(userNoFormated) => {
         if(userNoFormated){
             const user = formatUser(userNoFormated);

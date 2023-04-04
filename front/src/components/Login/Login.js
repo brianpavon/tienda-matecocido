@@ -84,7 +84,7 @@ const Login = () => {
                         <button className="btn btn-dark btn-block mt-2 m-2" type="button" onClick={handleLoginWithEmail}>Ingresar</button>
                         <button className="btn btn-outline-dark btn-block mt-2 m-2" type="button" onClick={handleRegister}>Registrarme</button>
 
-                        <div className="row mt-3 border-top p-2">
+                        {/* <div className="row mt-3 border-top p-2">
                             <label>Podes usar tu cuenta de Google</label>
                             <div className="col">                                
                                 <button className="btn btn-light m-2" type="button" onClick={handleLoginWithGoogle}>
@@ -92,7 +92,7 @@ const Login = () => {
                                     Continuar con Google
                                 </button>
                             </div>
-                        </div>
+                        </div> */}
                     </form>
                 </div>
             </div>

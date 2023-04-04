@@ -11,13 +11,13 @@ class Token
 {
     private static $key = 't!3nD@mAt3C0c!D0';
 
-    public static function getToken($id, $email, $rol = null)
+    public static function getToken($email, $rol = null)
     {
         $payload = array(
             'data' => [
-                'email' => $email,
-                'id' => $id//,
-                //'rol' => $rol
+                'email' => $email,                
+                'rol' => $rol,
+                'date_created' => date("Y-m-d H:i:s")
             ]
         );
 

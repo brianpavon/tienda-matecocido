@@ -6,7 +6,8 @@
             "Config\\": "Config",
             "Controllers\\": "src/Controllers",
             "Components\\": "src/Components",
-            "Models\\": "src/Models"
+            "Models\\": "src/Models",
+            "Enum\\": "src/Enum"
         }
     },
     "authors": [
@@ -20,7 +21,8 @@
         "slim/psr7": "^1.6",
         "illuminate/database": "^8.83",
         "illuminate/events": "^8.83",
-        "firebase/php-jwt": "^6.3",
-        "vlucas/phpdotenv": "^5.5"
+        "firebase/php-jwt": "^6.4",
+        "vlucas/phpdotenv": "^5.5",
+        "myclabs/php-enum": "^1.8"
     }
 }

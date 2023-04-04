@@ -42,9 +42,9 @@ const AppRouter = ()=>{
             <Route path='/' element={<ItemListContainer greeting={"Todas nuestras piezas"}/>} />
             <Route path='/categorias/:codCateg' element={<ItemListContainer/>} />
             <Route path='/detalle/:productCode' element={<ItemDetailContainer/>} />
-            {/* <Route path='/cart' element={<CartContainer/>} />
+            <Route path='/cart' element={<CartContainer/>} />
             <Route path='/checkout' element={<Checkout/>} />
-            <Route path='/login' element={<Login/>} /> */}
+            <Route path='/login' element={<Login/>} />
         </Routes>
         { location.pathname.startsWith('/backoffice') ? '' : <Footer/>}
         

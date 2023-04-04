@@ -3,7 +3,7 @@ import { CartContext } from "../../context/CartContext";
 import { useContext,useState } from "react";
 import Carrousel from "../Carrousel/Carrousel";
 
-const ItemDetail = ({codigo,nombre, imagenes, precio,descripcion}) =>{
+const ItemDetail = ({codigo,nombre, imagenes, precio,descripcion,stock}) =>{
     
     const [quantity,setQuantity] = useState(0);
     
@@ -45,9 +45,9 @@ const ItemDetail = ({codigo,nombre, imagenes, precio,descripcion}) =>{
                             <p className="card-text mt-4 mb-4">{descripcion}</p>
                             <h5 className="card-title mt-4">${precio}</h5>
                         </div>
-                        {/* <>
-                          <ItemCount id={id} stock={stock} onAdd={handleOnAdd}/>
-                        </> */}
+                        <>
+                          <ItemCount id={codigo} stock={stock} onAdd={handleOnAdd}/>
+                        </>
                         
                     </div>                    
                 </div>

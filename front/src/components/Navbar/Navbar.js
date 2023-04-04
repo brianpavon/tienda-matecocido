@@ -38,6 +38,32 @@ const Navbar = () => {
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         {categoriasDB.map(categ => <Link key={categ.codigo} to={`categorias/${categ.codigo}`} className="nav-link active">{categ.nombre}</Link>)}
                     </ul>
+                    {
+                        // !user ?
+                        // (
+                            <Link to='/login' className="me-4 btn btn-outline-dark">Login</Link>
+                        // )                            
+                        // :
+                        // (
+                        //     <ul className="navbar-nav">
+                        //         <img className="img-navbar" src={user.profilePhoto ? user.profilePhoto : '../images/user.png'}/>
+                        //         <li className="nav-item dropdown">
+                        //             <a className="nav-link dropdown-toggle"role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        //                 {user.name ? user.name : user.email}
+                        //             </a>
+                        //             <ul className="dropdown-menu navbar-colour">
+                        //                 <li>
+                        //                     <Link className="dropdown-item" to='/orders'>Mis pedidos</Link>
+                        //                 </li>
+                        //                 <li><hr className="dropdown-divider"/></li>
+                        //                 <li>
+                        //                     <button className="dropdown-item" onClick={closeSession}>Salir</button>
+                        //                 </li>                                        
+                        //             </ul>
+                        //         </li>
+                        //     </ul>
+                        // )
+                    }
                     <Link className="link-navbar d-none d-sm-block" to='/cart'> <CartWidget totalProducts={totalProducts}/></Link>
                 </div>
             </div>
