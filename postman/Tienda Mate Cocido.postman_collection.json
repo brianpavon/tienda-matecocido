@@ -1,0 +1,365 @@
+{
+	"info": {
+		"_postman_id": "cca511f7-ae4c-4c07-bf3a-1e46394caa87",
+		"name": "Tienda Mate Cocido",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25515655"
+	},
+	"item": [
+		{
+			"name": "Productos",
+			"item": [
+				{
+					"name": "Obtener Productos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}productos/",
+							"host": [
+								"{{url_local}}productos"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Nuevo Producto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"codigoProd\": \"taza-pepe\",\r\n  \"nombre\": \"Taza Peperina\",\r\n  \"descripcion\":\"Taza de 250 cc, 4 asas de colores\",\r\n  \"precio\": 1600,\r\n  \"stock\":5,\r\n  \"codigoColor\":[\"jaspeado\",\"matecocidoUno\"],\r\n  \"codigoCategoria\":[\"tazas\",\"combo\"],\r\n  \"imagenes\":[\"../images/products/taza_peperina.jpg\",\"../images/products/taza_peperina2.jpg\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}productos/nuevo-producto",
+							"host": [
+								"{{url_local}}productos"
+							],
+							"path": [
+								"nuevo-producto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener producto por codigo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}productos/taza-jengibre",
+							"host": [
+								"{{url_local}}productos"
+							],
+							"path": [
+								"taza-jengibre"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Productos por categoria",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}productos/producto-categoria/tazas",
+							"host": [
+								"{{url_local}}productos"
+							],
+							"path": [
+								"producto-categoria",
+								"tazas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Producto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "codigoProd",
+									"value": "taza-jengibre",
+									"type": "text"
+								},
+								{
+									"key": "nombre",
+									"value": "Taza Peperina",
+									"type": "text"
+								},
+								{
+									"key": "descripcion",
+									"value": "Taza de 250 cc, 4 asas de colores",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "1800",
+									"type": "text"
+								},
+								{
+									"key": "stock",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "codigoColor",
+									"value": "matecocidoUno",
+									"type": "text"
+								},
+								{
+									"key": "codigoCategoria",
+									"value": "combo,hogar-deco",
+									"type": "text"
+								},
+								{
+									"key": "imagenes_2",
+									"type": "file",
+									"src": "/C:/Users/brian/OneDrive/Documentos/CoderHouse/ecommerce-react/public/images/products/taza_jengibre.jpg"
+								},
+								{
+									"key": "imagenes_3",
+									"type": "file",
+									"src": "/C:/Users/brian/Downloads/taza_jengibre_frente.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url_local}}productos/editar-producto/taza-jengibre",
+							"host": [
+								"{{url_local}}productos"
+							],
+							"path": [
+								"editar-producto",
+								"taza-jengibre"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Producto",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}productos/eliminar-producto/taza-pepe2",
+							"host": [
+								"{{url_local}}productos"
+							],
+							"path": [
+								"eliminar-producto",
+								"taza-pepe2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categorias",
+			"item": [
+				{
+					"name": "Obtener Categorias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}categorias/",
+							"host": [
+								"{{url_local}}categorias"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Nueva Categoría",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"codigo\": \"hogar-deco\",\r\n  \"nombre\": \"Hogar & Deco\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}categorias/nueva-categoria",
+							"host": [
+								"{{url_local}}categorias"
+							],
+							"path": [
+								"nueva-categoria"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Colores",
+			"item": [
+				{
+					"name": "Nuevo Color",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"codigo\": \"matecocidoUno\",\r\n  \"nombre\": \"Matecocido\",\r\n  \"path_img\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}colores/nuevo-color",
+							"host": [
+								"{{url_local}}colores"
+							],
+							"path": [
+								"nuevo-color"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Colores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}colores/",
+							"host": [
+								"{{url_local}}colores"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "brian@mail.com",
+									"type": "text"
+								},
+								{
+									"key": "clave",
+									"value": "Anita_128",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url_local}}auth/login",
+							"host": [
+								"{{url_local}}auth"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "brian@mail.com",
+									"type": "text"
+								},
+								{
+									"key": "pass",
+									"value": "Anita_128",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url_local}}auth/crear-usuario",
+							"host": [
+								"{{url_local}}auth"
+							],
+							"path": [
+								"crear-usuario"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test Index",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_local}}",
+					"host": [
+						"{{url_local}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
