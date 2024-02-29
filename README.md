@@ -71,6 +71,22 @@
    - Podría redirigir solamente a enviar un whatsapp
    - Podría abrir una ventana simil chat, donde se puede escribir el mensaje y redirigir al whatsapp
 
+- Componente carrito (/cart):
+ - Debe listar los diferentes productos que se hayan agregado, dar la posibilidad de agregar, quitar unidades, o borrar ese producto
+ - Tiene la opción de vaciar el carrito
+ - Un botón que redirija a pagar
+
+- Componente checkout (/checkout)
+  - Si el usuario estuviera logueado, mostrar sus datos. Sino invitarlo a loguear o registrarse.
+   - Si no quisiera registrarse, cargar todos los datos
+  - Una vez que cargue los datos, mostrar resumen, con la posibilidad de editar esto
+  - Mostrar el detalle de los productos, con precio unitario, precio total
+  - Mostrar un input para aplicar códigos de descuentos
+  - Botón de pagar
+   - Por el momento, el botón, confirmaría la compra y guardaría los datos, tendría que enviar un mail y redirigir al detalle de compra con los datos del cbu y el número de orden. (esto hasta implementar la plataforma de pago)
+   - Debería redirigir a una plataforma de pago
+  
+
 ##### Backoffice (/backoffice)
   Sería la sesión donde el administrador puede administrar stock, cargar productos, pedidos, datos de la página etc
 
@@ -93,7 +109,8 @@
     - En cada fila de la tabla, botones al final, que permitan editar o eliminar ese producto. Y un botón para deshabilitarlo
     - Debería tener unos inputs y buscador que permitan filtrar la tabla por los diferentes campos de los productos    
   - Órdenes: (esta sección hay pensarla más y analizar que info mostrar y que debe hacer)
-    - Se listan las órdenes de compra de los clientes 
+    - Se listan las órdenes de compra de los clientes
+    - Permitir marcar ordenes como pagadas y adjuntar los comprobantes si hubiera
   - Clientes:
     - Si es admin, podría crear otros administradores, y clientes
     - Se listan los clientes con sus datos personales
