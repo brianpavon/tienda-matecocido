@@ -104,9 +104,9 @@
     - Cargar el logo de la tienda
     - Permitir cargar un preguntas frecuentes, con sus respuestas
 #### Backend
-Se deberá desarrollar los diferentes endpoints necesarios para la información del front, debiendo validar que los mismos sean accesibles de acuerdo a los permisos establecidos por los perfiles de usuarios.
+Se deberá desarrollar los diferentes endpoints necesarios para mostrar la información en el front, debiendo validar que los mismos sean accesibles de acuerdo a los permisos establecidos según los perfiles de usuarios.
 
-Manejaremos un JWT, con el cual para acceder a endpoints críticos se deberá enviar y validar.
+Manejaremos un JWT, el cual se deberá enviar y validar para acceder a endpoints críticos.
 
 - Usuarios:
   - Altas
