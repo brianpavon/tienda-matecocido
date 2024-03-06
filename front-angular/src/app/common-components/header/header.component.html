@@ -2,7 +2,7 @@
             
     <div class="container-fluid">
         
-        <a class="navbar-brand link-logo link-navbar">Mate Cocido</a>
+        <a class="navbar-brand link-logo link-navbar" routerLink="/home">Mate Cocido</a>
         <div class="col-sm-6 d-block d-sm-none">
             <!-- <Link class="link-navbar" to='/cart'> <CartWidget totalProducts={totalProducts}/></Link> -->            
         </div>
@@ -15,7 +15,7 @@
                 <a *ngFor="let categ of categories" href="" class="nav-link active link-navbar">{{categ.nombre}}</a>
             </ul>
             <!-- <Link class="link-navbar d-none d-sm-block" to='/cart'> <CartWidget totalProducts={totalProducts}/></Link> -->
-
+            <div class="me-4 btn btn-outline-dark" routerLink="/login">Login</div>
             <!-- ESTO QUIZAS DEBA IR EN UN COMPONENTE APARTE -->
             <!-- y deberia redirigirte al carrito -->
             <div class="link-navbar d-none d-sm-block">
