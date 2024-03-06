@@ -9,6 +9,8 @@ import { HomeComponent } from './components/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ItemsModule } from './components/items/items.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoginComponent } from './components/login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,13 +18,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FooterComponent,
     HeaderComponent,
     HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ItemsModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule
   ],
   exports:[
   ],

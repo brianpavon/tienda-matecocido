@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path:'categorias/:codCateg',
     loadChildren:()=> import('./components/items/items.module').then(m => m.ItemsModule) 
+  },
+  {
+    path:'login',
+    component: LoginComponent
   }
 ];
 
