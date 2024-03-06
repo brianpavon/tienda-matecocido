@@ -1,7 +1,7 @@
 #IGNORE BACKEND
 api/vendor/*
 api/.env
-api/public/imgs-productos/*
+#api/public/imgs-productos/*
 
 #IGNORE FRONTEND
 front/node_modules/*
