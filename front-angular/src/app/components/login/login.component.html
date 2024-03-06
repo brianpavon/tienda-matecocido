@@ -5,12 +5,19 @@
                 <h1  class="h3 mb-3 font-weight-normal">Ingreso</h1>
 
                 <label htmlFor="inputEmail" class="sr-only">Email</label>
-                <input formControlName="email" type="email"class="text-center form-control mt-2 mb-2" placeholder="Email" required autoFocus/>
+                <input formControlName="email" type="email"class="form-control mt-2 mb-2" placeholder="Email" autofocus/>
+                <div class="invalid">
+                    <p *ngIf="formLogin.controls['email'].errors?.['required'] && formLogin.controls['email'].touched">Debe completar el email.</p>                    
+                </div>
             
                 <label htmlFor="inputPassword" class="sr-only">Contraseña</label>
-                <input formControlName="clave" type="password"  class="text-center form-control mt-2 mb-2" placeholder="Contraseña" required/>
+                <input formControlName="clave" type="password"  class="form-control mt-2 mb-2" placeholder="Contraseña" required/>
+                <div class="invalid">
+                    <p *ngIf="formLogin.controls['clave'].errors?.['required'] && formLogin.controls['clave'].touched">Debe completar la contraseña.</p>
+                    <p *ngIf="formLogin.controls['clave'].errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</p>
+                </div>
                 
-                <button class="btn btn-dark btn-block mt-2 m-2" type="button" [disabled]="formLogin.invalid">Ingresar</button>
+                <button class="btn btn-dark btn-block mt-2 m-2" type="submit" [disabled]="formLogin.invalid">Ingresar</button>                
                 <button class="btn btn-outline-dark btn-block mt-2 m-2 d-none" type="button">Registrarme</button>
 
                 <!-- <div class="row mt-3 border-top p-2">

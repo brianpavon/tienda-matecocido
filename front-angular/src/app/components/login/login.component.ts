@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,7 @@ export class LoginComponent implements OnInit {
 
   formLogin : FormGroup;
 
-  constructor(private auth : AuthService, private fb : FormBuilder){
+  constructor(private auth : AuthService, private fb : FormBuilder, private session : SessionService, private router : Router){
     this.formLogin = this.fb.group(
       {
         'email':['',[Validators.required,Validators.email]],
@@ -27,8 +29,16 @@ export class LoginComponent implements OnInit {
   }
 
   makeLogin(){
-    let data = ['email']
-    this.auth
+    let data = this.formLogin.value
+    this.auth.login(data).subscribe(resp => {
+      if(resp.isOk){
+        this.session.setLocalstorage(resp.content);
+        this.router.navigate(['/']);
+      }else{
+        //mostrar el mensaje
+      }
+      
+    })
   }
 
 }
