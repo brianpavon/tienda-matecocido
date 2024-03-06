@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoriesService } from 'src/app/services/categories.service';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-header',
@@ -9,8 +10,10 @@ import { CategoriesService } from 'src/app/services/categories.service';
 
 export class HeaderComponent implements OnInit {
   categories : any[] = [];
-  constructor(private catServ : CategoriesService){
-
+  userLogged : boolean = false;
+  constructor(private catServ : CategoriesService, public session : SessionService){
+    this.userLogged = this.session.isUserLogged();
+    console.log(this.userLogged);
   }
   
   ngOnInit(): void {
@@ -19,5 +22,9 @@ export class HeaderComponent implements OnInit {
       this.categories = categs.content;
       
     })
+  }
+
+  closeSession(){
+    localStorage.clear()
   }
 }

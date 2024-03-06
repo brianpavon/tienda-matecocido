@@ -15,7 +15,8 @@
                 <a *ngFor="let categ of categories" href="" class="nav-link active link-navbar" routerLink="categorias/{{categ.codigo}}">{{categ.nombre}}</a>
             </ul>
             <!-- <Link class="link-navbar d-none d-sm-block" to='/cart'> <CartWidget totalProducts={totalProducts}/></Link> -->
-            <div class="me-4 btn btn-outline-dark" routerLink="/login">Login</div>
+            <div class="me-4 btn btn-outline-dark" routerLink="/login" *ngIf="!userLogged">Login</div>
+            <div class="me-4 btn btn-outline-dark" *ngIf="userLogged" (click)="closeSession()">Mi cuenta</div>
             <!-- ESTO QUIZAS DEBA IR EN UN COMPONENTE APARTE -->
             <!-- y deberia redirigirte al carrito -->
             <div class="link-navbar d-none d-sm-block">
