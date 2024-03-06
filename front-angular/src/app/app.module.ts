@@ -7,18 +7,24 @@ import { FooterComponent } from './common-components/footer/footer.component';
 import { HeaderComponent } from './common-components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ItemsModule } from './components/items/items.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
     HeaderComponent,
-    HomeComponent
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ItemsModule,
+    NgbModule
+  ],
+  exports:[
   ],
   providers: [],
   bootstrap: [AppComponent]
