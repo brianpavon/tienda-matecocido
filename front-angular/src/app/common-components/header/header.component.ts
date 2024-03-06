@@ -26,5 +26,6 @@ export class HeaderComponent implements OnInit {
 
   closeSession(){
     localStorage.clear()
+    //deberia llaamar a un endpoint del back para que cierre la sesión en DB, pero aun no guardamos datos de sesiones activas
   }
 }
