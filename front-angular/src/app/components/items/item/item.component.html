@@ -1,0 +1,15 @@
+<div class="col">
+    <div class="card h-100">
+        <app-carrousel *ngIf="item.imagenes.length > 1; else unaImagen" [imagenes]="item.imagenes"></app-carrousel>
+        <ng-template #unaImagen>
+            <img src="{{url}}/{{item.imagenes[0].path_img}}" height="100%" class="card-img-top" alt="{{item.nombre}}-img"/>
+        </ng-template>
+        <div class="card-body">
+            <h5 class="card-title">{{item.nombre}}</h5>
+            <p class="card-text">{{item.precio}}</p>
+        </div>
+        <div class="card-footer">
+            <a routerLink="/detalle/{{item.codigo}}" class="btn btn-detalle">Ver detalle</a>
+        </div>
+    </div>
+</div>  

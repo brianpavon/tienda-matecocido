@@ -1,0 +1,5 @@
+<ngb-carousel #carousel [interval]="5000">
+    <ng-template ngbSlide *ngFor="let imagen of imagenes" >
+        <img src="{{url}}/{{imagen.path_img}}" class="d-block w-100" alt="{{imagen.nombre}}">
+    </ng-template>
+</ngb-carousel>

@@ -2,7 +2,7 @@
             
     <div class="container-fluid">
         
-        <a class="navbar-brand link-logo link-navbar" routerLink="/home">Mate Cocido</a>
+        <a class="navbar-brand link-logo link-navbar" routerLink="/">Mate Cocido</a>
         <div class="col-sm-6 d-block d-sm-none">
             <!-- <Link class="link-navbar" to='/cart'> <CartWidget totalProducts={totalProducts}/></Link> -->            
         </div>
@@ -12,7 +12,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
-                <a *ngFor="let categ of categories" href="" class="nav-link active link-navbar">{{categ.nombre}}</a>
+                <a *ngFor="let categ of categories" href="" class="nav-link active link-navbar" routerLink="categorias/{{categ.codigo}}">{{categ.nombre}}</a>
             </ul>
             <!-- <Link class="link-navbar d-none d-sm-block" to='/cart'> <CartWidget totalProducts={totalProducts}/></Link> -->
             <div class="me-4 btn btn-outline-dark" routerLink="/login">Login</div>

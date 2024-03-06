@@ -4,9 +4,14 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
-  {path:'home', component: HomeComponent },
-  {path:'login', component: LoginComponent },
-  {path:'',redirectTo:'home',pathMatch:"full"},
+  {
+    path:'',
+    loadChildren:()=> import('./components/items/items.module').then(m => m.ItemsModule) 
+  },
+  {
+    path:'categorias/:codCateg',
+    loadChildren:()=> import('./components/items/items.module').then(m => m.ItemsModule) 
+  }
 ];
 
 @NgModule({

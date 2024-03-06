@@ -1,0 +1,4 @@
+<div class="container">
+        <h3 class="mt-3 mb-2 text-capitalize align-items-center text-center">{{!codCateg ? "Todas nuestras piezas" : categoria}}</h3>
+        <app-item-list *ngIf="productsDB" [products]="productsDB"></app-item-list>
+</div>
