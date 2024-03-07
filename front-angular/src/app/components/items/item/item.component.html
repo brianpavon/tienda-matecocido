@@ -4,11 +4,11 @@
         <ng-template #unaImagen>
             <img src="{{url}}/{{item.imagenes[0].path_img}}" height="100%" class="card-img-top" alt="{{item.nombre}}-img"/>
         </ng-template>
-        <div class="card-body">
+        <div class="card-body text-center">
             <h5 class="card-title">{{item.nombre}}</h5>
-            <p class="card-text">{{item.precio}}</p>
+            <p class="card-text">${{item.precio}}</p>
         </div>
-        <div class="card-footer">
+        <div class="card-footer text-center">
             <a routerLink="/detalle/{{item.codigo}}" class="btn btn-detalle">Ver detalle</a>
         </div>
     </div>

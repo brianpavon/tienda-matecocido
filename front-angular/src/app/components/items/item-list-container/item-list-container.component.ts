@@ -30,7 +30,7 @@ export class ItemListContainerComponent {
       })
     ).subscribe(products =>{
       this.productsDB= products.content;
-      console.log(this.productsDB);
+      // console.log(this.productsDB);
       // console.log(this.codCateg,this.categoria);
       
     })

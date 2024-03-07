@@ -1,1 +1,29 @@
-<p>item-detail works!</p>
+<div class="container-fluid mt-4 p-4 d-flex justify-content-center">
+
+    <div class="card mb-3" style="max-width: 50vw;">
+        <div class="row g-0" *ngIf="item.imagenes">
+
+            <div class="col-md-5">
+                <app-carrousel *ngIf="item.imagenes.length > 1; else unaImagen" [imagenes]="item.imagenes"></app-carrousel>
+                <ng-template #unaImagen>
+                    <img src="{{url}}/{{item.imagenes[0].path_img}}" height="100%" class="card-img-top" alt="{{item.nombre}}-img"/>
+                </ng-template>
+                    
+            </div>
+            
+            <div class="col-md-6 p-4 mt-4">
+                <div class="card-body p-4">
+                    <h3 class="card-title mt-4 mb-4">{{item.nombre}}</h3>
+                    <p class="card-text mt-4 mb-4">{{item.descripcion}}</p>
+                    <h5 class="card-title mt-4">${{item.precio}}</h5>
+                </div>
+                <!-- <>item.
+                  <ItemCount id={codigo} stock={stock} onAdd={handleOnAdd}/>
+                </> -->
+                
+            </div>                    
+        </div>
+
+        
+    </div>
+</div>

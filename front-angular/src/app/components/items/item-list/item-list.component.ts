@@ -14,7 +14,6 @@ constructor(){
 
 ngOnInit(){
   
-  console.log(this.products);
 }
 
 }
