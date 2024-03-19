@@ -11,12 +11,14 @@
                     
             </div>
             
-            <div class="col-md-6 p-4 mt-4">
+            <div class="col-md-6 p-4 mt-4 text-center">
                 <div class="card-body p-4">
                     <h3 class="card-title mt-4 mb-4">{{item.nombre}}</h3>
                     <p class="card-text mt-4 mb-4">{{item.descripcion}}</p>
                     <h5 class="card-title mt-4">${{item.precio}}</h5>
                 </div>
+
+                <app-item-count [item]="item"></app-item-count>
                 <!-- <>item.
                   <ItemCount id={codigo} stock={stock} onAdd={handleOnAdd}/>
                 </> -->

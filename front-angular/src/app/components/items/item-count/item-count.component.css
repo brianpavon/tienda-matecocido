@@ -1,0 +1,43 @@
+.btnSumarRestar{
+    width:2vw !important;
+    background-color:#f5e9c6 !important;
+
+}
+
+.input-count{
+    width:3vw !important;
+    font-weight:bold !important;
+    border: 1px solid #f5e9c6 !important;
+}
+
+.imgIcons{
+    width:80% !important;
+}
+
+.btnSumarRestar:hover{
+    transform: scale(0.9);
+    background-color:#f5e9c6 !important;
+}
+
+.btn-detalle{
+    
+    border-radius: 10px !important;
+    border: 2px solid #ebc5d2 !important;
+    background-color: #ebc5d2 !important;
+} 
+
+.btn-detalle:hover{
+    transform: scale(0.95) !important;
+    background-color: #ebc5d2 !important;
+}
+.btn-finalizar{
+    
+    border-radius: 10px !important;
+    border: 2px solid #bde0f5 !important;
+    background-color: #bde0f5 !important;
+} 
+
+.btn-finalizar:hover{
+    transform: scale(0.95) !important;
+    background-color: #bde0f5 !important;
+}

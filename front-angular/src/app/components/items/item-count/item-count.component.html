@@ -1,1 +1,42 @@
-<p>item-count works!</p>
+<div class="justify-content-center">
+    <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+        <!-- <button type="button" class={!isInCart(id) ? 'btn btnSumarRestar' : 'btn btnSumarRestar disabled'} onClick={count > 0 ? decrement : reset}> -->
+        <button type="button" class="btn btnSumarRestar" (click)="decrement()">
+            <img src="../../../../assets/images/minus.png" alt="img_minus" class="imgIcons"/>
+        </button>                
+        <input onChange={handleChange} class="input-count text-center" value={{valor}} readOnly={isInCart(id)}/>
+        <!-- <button type="button" class={!isInCart(id) ? 'btn btnSumarRestar' : 'btn btnSumarRestar disabled'} onClick={increment}> -->
+        <button type="button" (click)="increment()" class="btn btnSumarRestar">
+            <img src="./../../../assets/images/plus.png" alt="img_plus" class="imgIcons"/>
+        </button>
+    </div>
+    <div class="mt-4" *ngIf="item">
+        <a *ngIf="isInCart; else isNotInCart" class='btn btn-finalizar'>Finalizar compra</a>
+
+        <button *ngIf="isInCart" class="btn btn-detalle" (click)="eliminarItem()">
+            Eliminar item
+        </button>
+        <ng-template #isNotInCart>
+            <button [ngClass]="valor > 0 ? 'btn btn-detalle' : 'btn btn-detalle disabled'" (click)="onAdd()">
+                Agregar al carrito
+            </button>
+        </ng-template>
+
+        <button class="btn btn-warning" (click)="verCarrito()">Ver carrito</button>
+    </div>        
+    <!-- <div className="mt-4">
+        {
+            isInCart(id) ?
+            (    
+                <Link to='/cart' className='btn btn-finalizar'>
+                    Finalizar compra
+                </Link>
+            ) : 
+            (
+                <button className={ count > 0 ? 'btn btn-detalle' : 'btn btn-detalle disabled'} onClick={() => onAdd(count)}>
+                    Agregar al carrito
+                </button>                        
+            )
+        }
+    </div> -->
+</div>

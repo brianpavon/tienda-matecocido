@@ -11,6 +11,7 @@ import { ItemDetailComponent } from './item-detail/item-detail.component';
 import { ItemDetailContainerComponent } from './item-detail-container/item-detail-container.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { MaterialModule } from 'src/app/material/material.module';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { SharedModule } from '../shared/shared.module';
     ItemsRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    MaterialModule
   ],
   exports:[
     ItemListComponent

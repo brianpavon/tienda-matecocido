@@ -11,22 +11,29 @@ import { SessionService } from 'src/app/services/session.service';
 export class HeaderComponent implements OnInit {
   categories : any[] = [];
   userLogged : boolean = false;
+
+  usuario : any;
   constructor(private catServ : CategoriesService, public session : SessionService){
     this.userLogged = this.session.isUserLogged();
-    console.log(this.userLogged);
+
   }
   
   ngOnInit(): void {
     this.catServ.getCategories().subscribe(categs => {
-      //console.log(categs.content);
       this.categories = categs.content;
+      this.session.obtenerUsuarioLogueado().subscribe(user =>{
+        this.usuario = user;
+      })
       
     })
   }
 
   closeSession(){
+    // console.log(this.session.user);
+    this.session.cerrarSesion()
     this.userLogged = false;
-    localStorage.clear()
+    // console.log(this.session.user);
+    // localStorage.clear()
     //deberia llaamar a un endpoint del back para que cierre la sesión en DB, pero aun no guardamos datos de sesiones activas
   }
 }

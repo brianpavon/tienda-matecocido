@@ -11,6 +11,9 @@ import { ItemsModule } from './components/items/items.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './components/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DashboardModule } from './components/dashboard/dashboard.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     ItemsModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DashboardModule,
+    BrowserAnimationsModule,
+    MaterialModule
   ],
   exports:[
   ],

@@ -20,6 +20,5 @@ export class ItemDetailComponent {
   }
 
   ngOnInit(){
-    ;
   }
 }

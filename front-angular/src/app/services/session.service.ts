@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,26 @@ export class SessionService {
   isEdit : boolean = false;
   userLogged : any;
 
-  constructor() { }
+  user:any;
+
+  usuarioLogueado: BehaviorSubject <any> = new BehaviorSubject<any>(undefined);
+
+  constructor() {
+
+    const token = this.getToken();
+
+    if(token)
+      this.setUser(token)
+
+  }
+
+  obtenerUsuarioLogueado(){
+    return this.usuarioLogueado.asObservable();
+  }
+
+  actualizarUsuarioLogueado(valor: any){
+    this.usuarioLogueado.next(valor);
+  }
 
   setToken(token:any){
     localStorage.setItem('token', token);
@@ -45,7 +65,25 @@ export class SessionService {
   setLocalstorage(data:any){
     this.setToken(data.token);
     this.setRol(data.id_rol);
-    this.setUserLogged(data.email)
+    this.setUserLogged(data.email);
+
+  }
+
+  setUser(token:string){
+
+    const data = JSON.parse(atob(token.split('.')[1])).data;
+
+    this.user ={
+      email : data.email,
+      rol : data.rol
+    }
+    this.actualizarUsuarioLogueado(this.user);
+  }
+
+  cerrarSesion(){
+    // this.user = {};
+    this.actualizarUsuarioLogueado(undefined);
+    localStorage.clear();
   }
 
 }

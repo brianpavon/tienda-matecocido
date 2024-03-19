@@ -1,1 +1,83 @@
-<p>product-abm works!</p>
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">codProd ? 'Editar producto' : 'Alta de producto'</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group me-2">
+                <a routerLink="/backoffice/productos" class="btn btn-sm btn-dark">                    
+                  Volver
+                </a>              
+              </div>        
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container py-4 mt-3">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-8 border rounded-3">
+                <form class="form-signin p-3" [formGroup]="abmForm">
+                    <h1 *ngIf="codProd" class="h3 mb-3 text-start fw-normal">Edite el producto</h1>
+                    <h1 *ngIf="!codProd" class="h3 mb-3 text-start fw-normal">Cargue los datos del producto</h1>
+
+                    <!-- CODIGO  -->
+                    <div class="mb-3 row text-end">
+                        <label class="col-sm-3 col-form-label">Código del producto:</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="codigoProd" class="form-control" formControlName="codigoProd" (change)="handleChangeValue()"/>
+                            <p class="text-muted">No ingrese espacios, ni carácteres especiales (solo acepta guiones)</p>
+                        </div>
+                    </div>
+
+                    <!-- NOMBRE -->
+                    <div class="mb-3 row text-end">
+                        <label class="col-sm-3 col-form-label">Nombre del producto:</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="nombre" class="form-control" formControlName="nombre" (change)="handleChangeValue()"/>
+                        </div>
+                    </div>
+
+                    <!-- DESCRIPCION -->
+                    <div class="mb-3 row text-end">
+                        <label class="col-sm-3 col-form-label">Descripción del producto:</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" name="descripcion" formControlName="descripcion" (change)="handleChangeValue()"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- PRECIO -->
+                    <div class="mb-3 row text-end">
+                        <label  class="col-sm-3 col-form-label">Precio:</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" name="precio" formControlName="precio" (change)="handleChangeValue()"/>
+                        </div>
+                    </div>
+                    <!-- STOCK -->
+                    <div class="mb-3 row text-end">
+                        <label class="col-sm-3 col-form-label">Stock:</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" name="stock" formControlName="stock" (change)="handleChangeValue()"/>
+                        </div>
+                    </div>
+
+                    <!-- CATEGORIAS -->
+                    <div class="mb-3 row text-end">
+                        <label class="col-sm-3 col-form-label">Categorías del producto:</label>
+                        <div class="col-sm-4">
+                            <div class="border-bottom">
+                                <ul class="ulCheckbox list-group text-start">                                        
+                                    
+                                </ul>
+                            </div>                            
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- <canvas className="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
+
+    
+  </main>

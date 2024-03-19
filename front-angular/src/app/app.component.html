@@ -1,3 +1,4 @@
-<app-header></app-header>
+<app-header *ngIf="ruta && !ruta.startsWith('/backoffice')"></app-header>
+<app-navigation-dashboard *ngIf="ruta && ruta.startsWith('/backoffice')"></app-navigation-dashboard>
 <router-outlet></router-outlet>
-<app-footer></app-footer>
+<app-footer *ngIf="ruta && !ruta.startsWith('/backoffice')"></app-footer>

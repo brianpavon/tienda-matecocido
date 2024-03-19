@@ -1,0 +1,15 @@
+mat-table {
+    width: 100%;
+}
+
+ng-container{
+  margin-bottom: 50px;
+}
+
+.centrar{
+  vertical-align: middle;
+}
+
+/* img{
+  width: 50px;
+} */

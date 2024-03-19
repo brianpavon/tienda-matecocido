@@ -11,6 +11,10 @@ import { NavbarDashboardComponent } from './navigation/navbar-dashboard/navbar-d
 import { NavigationDashboardComponent } from './navigation/navigation-dashboard/navigation-dashboard.component';
 import { SidebarDashboardComponent } from './navigation/sidebar-dashboard/sidebar-dashboard.component';
 import { PanelComponent } from './panel/panel.component';
+import { OrdersCustomersComponent } from './orders-customers/orders-customers.component';
+import { MaterialModule } from 'src/app/material/material.module';
+import { SharedModule } from '../shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -23,11 +27,19 @@ import { PanelComponent } from './panel/panel.component';
     NavbarDashboardComponent,
     NavigationDashboardComponent,
     SidebarDashboardComponent,
-    PanelComponent
+    PanelComponent,
+    OrdersCustomersComponent
   ],
   imports: [
     CommonModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    MaterialModule,
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  exports:[
+    NavigationDashboardComponent
   ]
 })
 export class DashboardModule { }

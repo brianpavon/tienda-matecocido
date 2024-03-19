@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, mergeMap, takeUntil } from 'rxjs';
 import { ProductsService } from 'src/app/services/products.service';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-item-list-container',
@@ -17,11 +18,11 @@ export class ItemListContainerComponent {
   unsubscribeAll = new Subject<void>();
   unsubscribe = new Subject<void>();
 
-  constructor(private route: ActivatedRoute, private productServ: ProductsService){
+  constructor(private route: ActivatedRoute, private productServ: ProductsService, private session:SessionService){
   }
 
   ngOnInit(){
-
+    // console.log(this.session.user);
     this.route.params.pipe(
       mergeMap(params =>{
         this.codCateg = params['codCateg'];
@@ -30,7 +31,7 @@ export class ItemListContainerComponent {
       })
     ).subscribe(products =>{
       this.productsDB= products.content;
-      // console.log(this.productsDB);
+      console.log(this.productsDB);
       // console.log(this.codCateg,this.categoria);
       
     })

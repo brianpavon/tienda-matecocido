@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import { esAdminGuard } from './guards/es-admin.guard';
 
 const routes: Routes = [
   {
@@ -15,6 +16,10 @@ const routes: Routes = [
   {
     path:'login',
     component: LoginComponent
+  },
+  {
+    path:'backoffice',
+    loadChildren:() => import('./components/dashboard/dashboard.module').then(m => m.DashboardModule)
   }
 ];
 

@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
     this.auth.login(data).subscribe(resp => {
       if(resp.isOk){
         this.session.setLocalstorage(resp.content);
+        this.session.setUser(resp.content.token);
         this.router.navigate(['/']);
       }else{
         //mostrar el mensaje

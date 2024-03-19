@@ -3,20 +3,26 @@ import { CommonModule } from '@angular/common';
 import { CarrouselComponent } from './carrousel/carrousel.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { TablaComponent } from './tabla/tabla.component';
+import { MaterialModule } from 'src/app/material/material.module';
 
 
 
 @NgModule({
   declarations: [
     CarrouselComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    TablaComponent
   ],
   imports: [
     CommonModule,
-    NgbModule
+    NgbModule,
+    MaterialModule
   ],
   exports:[
-    CarrouselComponent
+    CarrouselComponent,
+    TablaComponent,
+    SpinnerComponent
   ]
 })
 export class SharedModule { }
