@@ -1,0 +1,33 @@
+// Bootstrap grid only
+@import 'bootstrap/dist/css/bootstrap-grid.min.css';
+@import 'bootstrap/dist/css/bootstrap-utilities.min.css';
+
+// PrimeNG
+@import 'primeicons/primeicons.css';
+
+// Custom variables
+:root {
+  --primary-color: #8B6F47;
+  --primary-dark: #6B5535;
+  --accent-color: #D4A574;
+  --bg-light: #FDF8F3;
+  --text-dark: #3C2F1E;
+  --text-muted: #7A6B5A;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--primary-dark);
+  }
+}

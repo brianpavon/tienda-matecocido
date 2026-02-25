@@ -1,0 +1,1449 @@
+openapi: 3.0.3
+info:
+  title: Tienda Matecocido API
+  version: 2.0.0
+  description: API REST para e-commerce de ceramica artesanal. Backend Laravel 12 + Sanctum.
+
+servers:
+  - url: http://127.0.0.1:8000/api
+    description: Local dev
+
+security: []
+
+tags:
+  - name: Health
+  - name: Auth
+  - name: Productos
+  - name: Categorias
+  - name: Colores
+  - name: Ordenes
+  - name: Usuarios
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    ApiResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        content:
+          nullable: true
+
+    Usuario:
+      type: object
+      properties:
+        id_usuario:
+          type: integer
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          enum: [ADMIN, CLIENTE]
+        activo:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Categoria:
+      type: object
+      properties:
+        id_categ:
+          type: integer
+        codigo:
+          type: string
+          maxLength: 15
+        nombre:
+          type: string
+          maxLength: 50
+        activo:
+          type: boolean
+
+    Color:
+      type: object
+      properties:
+        id_color:
+          type: integer
+        codigo:
+          type: string
+          maxLength: 15
+        nombre:
+          type: string
+          maxLength: 50
+        path_img:
+          type: string
+          maxLength: 250
+          nullable: true
+        activo:
+          type: boolean
+
+    ProductoImagen:
+      type: object
+      properties:
+        id_img_prod:
+          type: integer
+        id_prod:
+          type: integer
+        path_img:
+          type: string
+        nombre:
+          type: string
+
+    Producto:
+      type: object
+      properties:
+        id_prod:
+          type: integer
+        codigo:
+          type: string
+          maxLength: 20
+        nombre:
+          type: string
+          maxLength: 100
+        descripcion:
+          type: string
+          nullable: true
+        precio:
+          type: number
+          format: float
+        stock:
+          type: integer
+        activo:
+          type: boolean
+        categorias:
+          type: array
+          items:
+            $ref: '#/components/schemas/Categoria'
+        colores:
+          type: array
+          items:
+            $ref: '#/components/schemas/Color'
+        imagenes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductoImagen'
+
+    DetalleOrden:
+      type: object
+      properties:
+        id_detalle:
+          type: integer
+        id_orden:
+          type: integer
+        id_prod:
+          type: integer
+        cantidad:
+          type: integer
+        precio_unitario:
+          type: number
+          format: float
+        subtotal:
+          type: number
+          format: float
+        producto:
+          $ref: '#/components/schemas/Producto'
+
+    Orden:
+      type: object
+      properties:
+        id_orden:
+          type: integer
+        id_usuario:
+          type: integer
+        total:
+          type: number
+          format: float
+        estado:
+          type: string
+          enum: [PENDIENTE, CONFIRMADA, ENVIADA, ENTREGADA, CANCELADA]
+        nombre_envio:
+          type: string
+          maxLength: 200
+        direccion_envio:
+          type: string
+          maxLength: 300
+        telefono_envio:
+          type: string
+          maxLength: 30
+        email_envio:
+          type: string
+          format: email
+          maxLength: 100
+          nullable: true
+        notas:
+          type: string
+          nullable: true
+        activo:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        detalles:
+          type: array
+          items:
+            $ref: '#/components/schemas/DetalleOrden'
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+
+    RegistroRequest:
+      type: object
+      required:
+        - email
+        - password
+        - password_confirmation
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+          minLength: 6
+        password_confirmation:
+          type: string
+          format: password
+
+    CambiarPasswordRequest:
+      type: object
+      required:
+        - password_actual
+        - password
+        - password_confirmation
+      properties:
+        password_actual:
+          type: string
+          format: password
+        password:
+          type: string
+          format: password
+          minLength: 6
+        password_confirmation:
+          type: string
+          format: password
+
+    OrdenRequest:
+      type: object
+      required:
+        - items
+        - nombre_envio
+        - direccion_envio
+        - telefono_envio
+      properties:
+        items:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required:
+              - id_prod
+              - cantidad
+            properties:
+              id_prod:
+                type: integer
+              cantidad:
+                type: integer
+                minimum: 1
+        nombre_envio:
+          type: string
+          maxLength: 200
+        direccion_envio:
+          type: string
+          maxLength: 300
+        telefono_envio:
+          type: string
+          maxLength: 30
+        email_envio:
+          type: string
+          format: email
+          maxLength: 100
+          nullable: true
+        notas:
+          type: string
+          nullable: true
+
+    EstadoOrdenRequest:
+      type: object
+      required:
+        - estado
+      properties:
+        estado:
+          type: string
+          enum: [PENDIENTE, CONFIRMADA, ENVIADA, ENTREGADA, CANCELADA]
+
+    CategoriaRequest:
+      type: object
+      required:
+        - codigo
+        - nombre
+      properties:
+        codigo:
+          type: string
+          maxLength: 15
+        nombre:
+          type: string
+          maxLength: 50
+
+    CategoriaUpdateRequest:
+      type: object
+      properties:
+        codigo:
+          type: string
+          maxLength: 15
+        nombre:
+          type: string
+          maxLength: 50
+
+    ColorRequest:
+      type: object
+      required:
+        - codigo
+        - nombre
+      properties:
+        codigo:
+          type: string
+          maxLength: 15
+        nombre:
+          type: string
+          maxLength: 50
+        path_img:
+          type: string
+          maxLength: 250
+          nullable: true
+
+    ColorUpdateRequest:
+      type: object
+      properties:
+        codigo:
+          type: string
+          maxLength: 15
+        nombre:
+          type: string
+          maxLength: 50
+        path_img:
+          type: string
+          maxLength: 250
+          nullable: true
+
+  responses:
+    Unauthorized:
+      description: No autenticado o token invalido
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiResponse'
+          example:
+            success: false
+            message: Unauthenticated
+            content: null
+
+    Forbidden:
+      description: Sin permisos suficientes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiResponse'
+          example:
+            success: false
+            message: Forbidden
+            content: null
+
+    NotFound:
+      description: Recurso no encontrado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiResponse'
+          example:
+            success: false
+            message: Not found
+            content: null
+
+    UnprocessableEntity:
+      description: Error de validacion
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiResponse'
+          example:
+            success: false
+            message: The given data was invalid
+            content:
+              errors:
+                email:
+                  - The email field is required.
+
+paths:
+
+  # ─────────────────────────────────────────
+  # Health
+  # ─────────────────────────────────────────
+
+  /health:
+    get:
+      tags: [Health]
+      summary: Health check
+      description: Verifica el estado del servidor y la conexion a la base de datos.
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Servidor operativo
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        type: object
+                        properties:
+                          status:
+                            type: string
+                            example: ok
+                          database:
+                            type: string
+                            example: connected
+
+  # ─────────────────────────────────────────
+  # Auth
+  # ─────────────────────────────────────────
+
+  /auth/registro:
+    post:
+      tags: [Auth]
+      summary: Registro de nuevo usuario
+      operationId: authRegistro
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistroRequest'
+            example:
+              email: usuario@example.com
+              password: secret123
+              password_confirmation: secret123
+      responses:
+        '201':
+          description: Usuario registrado exitosamente
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        type: object
+                        properties:
+                          token:
+                            type: string
+                          role:
+                            type: string
+                            enum: [ADMIN, CLIENTE]
+                          usuario:
+                            $ref: '#/components/schemas/Usuario'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Login de usuario
+      operationId: authLogin
+      parameters:
+        - name: X-Device-Id
+          in: header
+          required: false
+          description: Identificador del dispositivo del cliente (opcional)
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            example:
+              email: usuario@example.com
+              password: secret123
+      responses:
+        '200':
+          description: Login exitoso
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        type: object
+                        properties:
+                          token:
+                            type: string
+                          role:
+                            type: string
+                            enum: [ADMIN, CLIENTE]
+                          usuario:
+                            $ref: '#/components/schemas/Usuario'
+        '401':
+          description: Credenciales incorrectas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: false
+                message: Credenciales incorrectas
+                content: null
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  /auth/logout:
+    post:
+      tags: [Auth]
+      summary: Logout del usuario autenticado
+      operationId: authLogout
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Sesion cerrada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: true
+                message: Sesion cerrada correctamente
+                content: null
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/me:
+    get:
+      tags: [Auth]
+      summary: Obtener usuario autenticado
+      operationId: authMe
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Datos del usuario autenticado
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        allOf:
+                          - $ref: '#/components/schemas/Usuario'
+                          - type: object
+                            properties:
+                              datos_personales:
+                                type: object
+                                nullable: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/cambiar-password:
+    put:
+      tags: [Auth]
+      summary: Cambiar contrasena del usuario autenticado
+      operationId: authCambiarPassword
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CambiarPasswordRequest'
+      responses:
+        '200':
+          description: Contrasena actualizada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: true
+                message: Contrasena actualizada correctamente
+                content: null
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  # ─────────────────────────────────────────
+  # Productos
+  # ─────────────────────────────────────────
+
+  /productos:
+    get:
+      tags: [Productos]
+      summary: Listar productos activos
+      operationId: getProductos
+      parameters:
+        - name: categoria
+          in: query
+          required: false
+          description: Filtrar por codigo de categoria
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de productos activos con categorias, colores e imagenes
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Producto'
+
+  /productos/{codigo}:
+    get:
+      tags: [Productos]
+      summary: Obtener producto por codigo
+      operationId: getProductoByCodigo
+      parameters:
+        - name: codigo
+          in: path
+          required: true
+          description: Codigo unico del producto
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        $ref: '#/components/schemas/Producto'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /admin/productos:
+    post:
+      tags: [Productos]
+      summary: Crear producto (ADMIN)
+      operationId: createProducto
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - codigo
+                - nombre
+                - precio
+                - stock
+              properties:
+                codigo:
+                  type: string
+                  maxLength: 20
+                  description: Codigo unico del producto
+                nombre:
+                  type: string
+                  maxLength: 100
+                descripcion:
+                  type: string
+                  nullable: true
+                precio:
+                  type: number
+                  format: float
+                  minimum: 0
+                stock:
+                  type: integer
+                  minimum: 0
+                categorias[]:
+                  type: array
+                  items:
+                    type: integer
+                  description: IDs de categorias
+                colores[]:
+                  type: array
+                  items:
+                    type: integer
+                  description: IDs de colores
+                imagenes[]:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                  description: Archivos de imagen (max 2048 KB cada uno)
+      responses:
+        '201':
+          description: Producto creado exitosamente
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        $ref: '#/components/schemas/Producto'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  /admin/productos/{id}:
+    put:
+      tags: [Productos]
+      summary: Actualizar producto (ADMIN)
+      operationId: updateProducto
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: integer
+      requestBody:
+        required: false
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                codigo:
+                  type: string
+                  maxLength: 20
+                nombre:
+                  type: string
+                  maxLength: 100
+                descripcion:
+                  type: string
+                  nullable: true
+                precio:
+                  type: number
+                  format: float
+                  minimum: 0
+                stock:
+                  type: integer
+                  minimum: 0
+                categorias[]:
+                  type: array
+                  items:
+                    type: integer
+                colores[]:
+                  type: array
+                  items:
+                    type: integer
+                imagenes[]:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '200':
+          description: Producto actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        $ref: '#/components/schemas/Producto'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+    delete:
+      tags: [Productos]
+      summary: Eliminar producto - soft delete (ADMIN)
+      operationId: deleteProducto
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Producto desactivado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: true
+                message: Producto eliminado correctamente
+                content: null
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ─────────────────────────────────────────
+  # Categorias
+  # ─────────────────────────────────────────
+
+  /categorias:
+    get:
+      tags: [Categorias]
+      summary: Listar categorias activas
+      operationId: getCategorias
+      responses:
+        '200':
+          description: Lista de categorias activas ordenadas por nombre
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Categoria'
+
+  /admin/categorias:
+    post:
+      tags: [Categorias]
+      summary: Crear categoria (ADMIN)
+      operationId: createCategoria
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoriaRequest'
+            example:
+              codigo: tazas
+              nombre: Tazas
+      responses:
+        '201':
+          description: Categoria creada exitosamente
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        $ref: '#/components/schemas/Categoria'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  /admin/categorias/{id}:
+    get:
+      tags: [Categorias]
+      summary: Obtener categoria por ID (ADMIN)
+      operationId: getCategoria
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la categoria
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Categoria encontrada
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        $ref: '#/components/schemas/Categoria'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags: [Categorias]
+      summary: Actualizar categoria (ADMIN)
+      operationId: updateCategoria
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la categoria
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoriaUpdateRequest'
+      responses:
+        '200':
+          description: Categoria actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        $ref: '#/components/schemas/Categoria'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+    delete:
+      tags: [Categorias]
+      summary: Eliminar categoria - soft delete (ADMIN)
+      operationId: deleteCategoria
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la categoria
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Categoria desactivada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: true
+                message: Categoria eliminada correctamente
+                content: null
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ─────────────────────────────────────────
+  # Colores
+  # ─────────────────────────────────────────
+
+  /colores:
+    get:
+      tags: [Colores]
+      summary: Listar colores activos
+      operationId: getColores
+      responses:
+        '200':
+          description: Lista de colores activos
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Color'
+
+  /admin/colores:
+    post:
+      tags: [Colores]
+      summary: Crear color (ADMIN)
+      operationId: createColor
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ColorRequest'
+            example:
+              codigo: blanco
+              nombre: Blanco
+              path_img: null
+      responses:
+        '201':
+          description: Color creado exitosamente
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        $ref: '#/components/schemas/Color'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  /admin/colores/{id}:
+    get:
+      tags: [Colores]
+      summary: Obtener color por ID (ADMIN)
+      operationId: getColor
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del color
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Color encontrado
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        $ref: '#/components/schemas/Color'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags: [Colores]
+      summary: Actualizar color (ADMIN)
+      operationId: updateColor
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del color
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ColorUpdateRequest'
+      responses:
+        '200':
+          description: Color actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        $ref: '#/components/schemas/Color'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+    delete:
+      tags: [Colores]
+      summary: Eliminar color - soft delete (ADMIN)
+      operationId: deleteColor
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del color
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Color desactivado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: true
+                message: Color eliminado correctamente
+                content: null
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ─────────────────────────────────────────
+  # Ordenes
+  # ─────────────────────────────────────────
+
+  /ordenes:
+    post:
+      tags: [Ordenes]
+      summary: Crear orden de compra
+      operationId: createOrden
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrdenRequest'
+            example:
+              items:
+                - id_prod: 1
+                  cantidad: 2
+                - id_prod: 3
+                  cantidad: 1
+              nombre_envio: Juan Perez
+              direccion_envio: Av. Siempre Viva 123
+              telefono_envio: "+5491122334455"
+              email_envio: juan@example.com
+              notas: Dejar en porteria
+      responses:
+        '201':
+          description: Orden creada exitosamente. Los precios son calculados por el servidor desde la DB.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        $ref: '#/components/schemas/Orden'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  /ordenes/mis-ordenes:
+    get:
+      tags: [Ordenes]
+      summary: Listar ordenes del usuario autenticado
+      operationId: getMisOrdenes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Ordenes del usuario con detalles e informacion de productos
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Orden'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /admin/ordenes:
+    get:
+      tags: [Ordenes]
+      summary: Listar todas las ordenes (ADMIN)
+      operationId: getOrdenes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Todas las ordenes con datos de usuario y detalles
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        type: array
+                        items:
+                          allOf:
+                            - $ref: '#/components/schemas/Orden'
+                            - type: object
+                              properties:
+                                usuario:
+                                  $ref: '#/components/schemas/Usuario'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/ordenes/{id}:
+    get:
+      tags: [Ordenes]
+      summary: Obtener orden por ID (ADMIN)
+      operationId: getOrden
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la orden
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Orden encontrada con usuario y detalles
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        allOf:
+                          - $ref: '#/components/schemas/Orden'
+                          - type: object
+                            properties:
+                              usuario:
+                                $ref: '#/components/schemas/Usuario'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /admin/ordenes/{id}/estado:
+    put:
+      tags: [Ordenes]
+      summary: Actualizar estado de orden (ADMIN)
+      operationId: updateEstadoOrden
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la orden
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstadoOrdenRequest'
+            example:
+              estado: CONFIRMADA
+      responses:
+        '200':
+          description: Estado de orden actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        $ref: '#/components/schemas/Orden'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  # ─────────────────────────────────────────
+  # Usuarios
+  # ─────────────────────────────────────────
+
+  /admin/usuarios:
+    get:
+      tags: [Usuarios]
+      summary: Listar todos los usuarios (ADMIN)
+      operationId: getUsuarios
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Todos los usuarios con datos personales
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        type: array
+                        items:
+                          allOf:
+                            - $ref: '#/components/schemas/Usuario'
+                            - type: object
+                              properties:
+                                datosPersonales:
+                                  type: object
+                                  nullable: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/usuarios/{id}:
+    get:
+      tags: [Usuarios]
+      summary: Obtener usuario por ID (ADMIN)
+      operationId: getUsuario
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Usuario encontrado con datos personales
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        allOf:
+                          - $ref: '#/components/schemas/Usuario'
+                          - type: object
+                            properties:
+                              datosPersonales:
+                                type: object
+                                nullable: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /admin/usuarios/{id}/toggle-activo:
+    put:
+      tags: [Usuarios]
+      summary: Activar o desactivar usuario (ADMIN)
+      operationId: toggleActivoUsuario
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Estado activo del usuario invertido exitosamente
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      content:
+                        $ref: '#/components/schemas/Usuario'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'

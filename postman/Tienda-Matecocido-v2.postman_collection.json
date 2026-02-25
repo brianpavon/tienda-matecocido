@@ -1,0 +1,1248 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "Tienda Matecocido v2",
+    "description": "API collection for Tienda Matecocido v2 — Laravel 12 + Sanctum backend. Covers public endpoints (productos, categorias, colores), auth (registro, login, logout, me, cambiar-password), cliente endpoints (ordenes), and admin CRUD for productos, categorias, colores, ordenes and usuarios.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8000/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "description": "Basic health check endpoint to verify the API is up and responding.",
+      "item": [
+        {
+          "name": "GET Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            },
+            "description": "Verifies that the API is running. Returns a simple status response with no authentication required."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "description": "Authentication endpoints: registro, login, logout, perfil propio y cambio de password.",
+      "item": [
+        {
+          "name": "POST Registro",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "    var json = pm.response.json();",
+                  "    if (json.content && json.content.token) {",
+                  "        pm.collectionVariables.set(\"token\", json.content.token);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@test.com\",\n  \"password\": \"123456\",\n  \"password_confirmation\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/registro",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "registro"]
+            },
+            "description": "Registra un nuevo usuario con rol CLIENTE. El token devuelto se guarda automáticamente en la variable de colección `token`."
+          },
+          "response": []
+        },
+        {
+          "name": "POST Login (Admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "    var json = pm.response.json();",
+                  "    if (json.content && json.content.token) {",
+                  "        pm.collectionVariables.set(\"token\", json.content.token);",
+                  "        pm.collectionVariables.set(\"adminToken\", json.content.token);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@matecocido.com\",\n  \"password\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Login con credenciales de administrador. Guarda el token en las variables `token` y `adminToken` para poder usar los endpoints de admin."
+          },
+          "response": []
+        },
+        {
+          "name": "POST Login (Cliente)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "    var json = pm.response.json();",
+                  "    if (json.content && json.content.token) {",
+                  "        pm.collectionVariables.set(\"token\", json.content.token);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"cliente@matecocido.com\",\n  \"password\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Login con credenciales de cliente. Guarda el token en la variable `token`. Usar `POST Login (Admin)` primero si se necesitan probar endpoints de admin."
+          },
+          "response": []
+        },
+        {
+          "name": "POST Logout",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "logout"]
+            },
+            "description": "Invalida el token Sanctum actual del usuario autenticado. Requiere Bearer token."
+          },
+          "response": []
+        },
+        {
+          "name": "GET Me",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "me"]
+            },
+            "description": "Devuelve los datos del usuario autenticado (id, email, rol, activo, etc.)."
+          },
+          "response": []
+        },
+        {
+          "name": "PUT Cambiar Password",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password_actual\": \"123456\",\n  \"password\": \"nuevapass\",\n  \"password_confirmation\": \"nuevapass\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/cambiar-password",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "cambiar-password"]
+            },
+            "description": "Permite al usuario autenticado cambiar su propia password. Requiere la password actual para validación."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Productos (Public)",
+      "description": "Endpoints públicos para consultar el catálogo de productos. No requieren autenticación.",
+      "item": [
+        {
+          "name": "GET Todos los productos",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/productos",
+              "host": ["{{baseUrl}}"],
+              "path": ["productos"]
+            },
+            "description": "Lista todos los productos activos del catálogo con sus imágenes, categorías y colores."
+          },
+          "response": []
+        },
+        {
+          "name": "GET Productos por categoria",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/productos?categoria=tazas",
+              "host": ["{{baseUrl}}"],
+              "path": ["productos"],
+              "query": [
+                {
+                  "key": "categoria",
+                  "value": "tazas",
+                  "description": "Código de la categoría por la que filtrar"
+                }
+              ]
+            },
+            "description": "Filtra el listado de productos por el código de categoría. Ejemplo: `tazas`, `floreros`, etc."
+          },
+          "response": []
+        },
+        {
+          "name": "GET Producto por codigo",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/productos/taza-matecocido",
+              "host": ["{{baseUrl}}"],
+              "path": ["productos", "taza-matecocido"]
+            },
+            "description": "Devuelve el detalle completo de un producto usando su código (slug). Incluye imágenes, categorías y colores asociados."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Categorias (Public)",
+      "description": "Endpoints públicos para consultar categorías. No requieren autenticación.",
+      "item": [
+        {
+          "name": "GET Todas las categorias",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/categorias",
+              "host": ["{{baseUrl}}"],
+              "path": ["categorias"]
+            },
+            "description": "Devuelve el listado de todas las categorías disponibles (id, codigo, nombre)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Colores (Public)",
+      "description": "Endpoints públicos para consultar colores. No requieren autenticación.",
+      "item": [
+        {
+          "name": "GET Todos los colores",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/colores",
+              "host": ["{{baseUrl}}"],
+              "path": ["colores"]
+            },
+            "description": "Devuelve el listado de todos los colores disponibles para los productos (id, codigo, nombre)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Ordenes (Cliente)",
+      "description": "Endpoints para que un cliente autenticado gestione sus propias órdenes.",
+      "item": [
+        {
+          "name": "POST Crear orden",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"id_prod\": 1,\n      \"cantidad\": 2\n    }\n  ],\n  \"nombre_envio\": \"Juan Perez\",\n  \"direccion_envio\": \"Calle 123\",\n  \"telefono_envio\": \"3511234567\",\n  \"email_envio\": \"juan@test.com\",\n  \"notas\": \"Envolver para regalo\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/ordenes",
+              "host": ["{{baseUrl}}"],
+              "path": ["ordenes"]
+            },
+            "description": "Crea una nueva orden para el usuario autenticado. El campo `items` es un array de productos con su `id_prod` y `cantidad`. El precio se calcula en el servidor."
+          },
+          "response": []
+        },
+        {
+          "name": "GET Mis ordenes",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/mis-ordenes",
+              "host": ["{{baseUrl}}"],
+              "path": ["ordenes", "mis-ordenes"]
+            },
+            "description": "Lista todas las órdenes del usuario autenticado con su estado y detalle de items."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "description": "Endpoints de administración. Requieren usuario con rol ADMIN y token `{{adminToken}}`.",
+      "item": [
+        {
+          "name": "Productos",
+          "description": "CRUD de productos para administradores. Usa formdata para soportar subida de imágenes.",
+          "item": [
+            {
+              "name": "POST Crear producto",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "codigo",
+                      "value": "test-prod-001",
+                      "type": "text",
+                      "description": "Código único (slug) del producto"
+                    },
+                    {
+                      "key": "nombre",
+                      "value": "Producto Test",
+                      "type": "text",
+                      "description": "Nombre del producto"
+                    },
+                    {
+                      "key": "descripcion",
+                      "value": "Descripcion test",
+                      "type": "text",
+                      "description": "Descripción larga del producto"
+                    },
+                    {
+                      "key": "precio",
+                      "value": "1500",
+                      "type": "text",
+                      "description": "Precio en centavos o entero según schema"
+                    },
+                    {
+                      "key": "stock",
+                      "value": "10",
+                      "type": "text",
+                      "description": "Cantidad disponible en stock"
+                    },
+                    {
+                      "key": "categorias[]",
+                      "value": "1",
+                      "type": "text",
+                      "description": "ID de categoría (puede repetirse para múltiples)"
+                    },
+                    {
+                      "key": "colores[]",
+                      "value": "1",
+                      "type": "text",
+                      "description": "ID de color (puede repetirse para múltiples)"
+                    },
+                    {
+                      "key": "imagenes[]",
+                      "value": "",
+                      "type": "file",
+                      "description": "Archivo de imagen del producto (puede repetirse para múltiples)",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/productos",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "productos"]
+                },
+                "description": "Crea un nuevo producto. Usa multipart/form-data para permitir subida de imágenes. `categorias[]` y `colores[]` pueden enviarse múltiples veces para asociar varios. `imagenes[]` acepta archivos."
+              },
+              "response": []
+            },
+            {
+              "name": "PUT Editar producto",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "nombre",
+                      "value": "Producto Editado",
+                      "type": "text",
+                      "description": "Nuevo nombre del producto"
+                    },
+                    {
+                      "key": "precio",
+                      "value": "2000",
+                      "type": "text",
+                      "description": "Nuevo precio"
+                    },
+                    {
+                      "key": "stock",
+                      "value": "20",
+                      "type": "text",
+                      "description": "Nuevo stock"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/productos/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "productos", "1"]
+                },
+                "description": "Edita un producto existente identificado por su ID. Solo se deben enviar los campos a modificar. Admite también `categorias[]`, `colores[]` e `imagenes[]` igual que el POST."
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Eliminar producto",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/productos/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "productos", "1"]
+                },
+                "description": "Elimina (soft o hard delete según configuración) un producto por su ID. También elimina las imágenes asociadas."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Categorias",
+          "description": "CRUD de categorías para administradores.",
+          "item": [
+            {
+              "name": "GET Todas (admin)",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/categorias",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "categorias"]
+                },
+                "description": "Lista todas las categorías (incluyendo las inactivas si aplica). Vista de administrador."
+              },
+              "response": []
+            },
+            {
+              "name": "POST Crear categoria",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"codigo\": \"nueva-cat\",\n  \"nombre\": \"Nueva Categoria\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/categorias",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "categorias"]
+                },
+                "description": "Crea una nueva categoría. El campo `codigo` debe ser único y se usa como slug en las URLs públicas."
+              },
+              "response": []
+            },
+            {
+              "name": "GET Categoria por ID",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/categorias/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "categorias", "1"]
+                },
+                "description": "Devuelve el detalle de una categoría específica por su ID numérico."
+              },
+              "response": []
+            },
+            {
+              "name": "PUT Editar categoria",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Categoria Editada\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/categorias/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "categorias", "1"]
+                },
+                "description": "Actualiza el nombre (y opcionalmente el codigo) de una categoría existente."
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Eliminar categoria",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/categorias/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "categorias", "1"]
+                },
+                "description": "Elimina una categoría por su ID. Puede fallar si hay productos asociados dependiendo de la configuración de FK."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Colores",
+          "description": "CRUD de colores para administradores.",
+          "item": [
+            {
+              "name": "GET Todos (admin)",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/colores",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "colores"]
+                },
+                "description": "Lista todos los colores disponibles. Vista de administrador."
+              },
+              "response": []
+            },
+            {
+              "name": "POST Crear color",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"codigo\": \"rojo\",\n  \"nombre\": \"Rojo\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/colores",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "colores"]
+                },
+                "description": "Crea un nuevo color. El campo `codigo` debe ser único."
+              },
+              "response": []
+            },
+            {
+              "name": "GET Color por ID",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/colores/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "colores", "1"]
+                },
+                "description": "Devuelve el detalle de un color por su ID."
+              },
+              "response": []
+            },
+            {
+              "name": "PUT Editar color",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Color Editado\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/colores/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "colores", "1"]
+                },
+                "description": "Actualiza el nombre (y opcionalmente el codigo) de un color existente."
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Eliminar color",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/colores/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "colores", "1"]
+                },
+                "description": "Elimina un color por su ID."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Ordenes",
+          "description": "Gestión de órdenes para administradores. Acceso a todas las órdenes del sistema.",
+          "item": [
+            {
+              "name": "GET Todas las ordenes",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/ordenes",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "ordenes"]
+                },
+                "description": "Lista todas las órdenes de todos los clientes, con su estado, total y datos de envío."
+              },
+              "response": []
+            },
+            {
+              "name": "GET Orden por ID",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/ordenes/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "ordenes", "1"]
+                },
+                "description": "Devuelve el detalle completo de una orden específica, incluyendo todos sus items, precios y datos del cliente."
+              },
+              "response": []
+            },
+            {
+              "name": "PUT Cambiar estado orden",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"estado\": \"CONFIRMADA\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/ordenes/1/estado",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "ordenes", "1", "estado"]
+                },
+                "description": "Actualiza el estado de una orden. Estados posibles: PENDIENTE, CONFIRMADA, EN_PREPARACION, ENVIADA, ENTREGADA, CANCELADA."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Usuarios",
+          "description": "Gestión de usuarios para administradores.",
+          "item": [
+            {
+              "name": "GET Todos los usuarios",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/usuarios",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "usuarios"]
+                },
+                "description": "Lista todos los usuarios registrados con su rol, estado activo/inactivo y fecha de registro."
+              },
+              "response": []
+            },
+            {
+              "name": "GET Usuario por ID",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/usuarios/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "usuarios", "1"]
+                },
+                "description": "Devuelve el detalle de un usuario específico por su ID."
+              },
+              "response": []
+            },
+            {
+              "name": "PUT Toggle activo usuario",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/usuarios/2/toggle-activo",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "usuarios", "2", "toggle-activo"]
+                },
+                "description": "Activa o desactiva un usuario (toggle). Un usuario inactivo no puede autenticarse. No se puede desactivar el propio usuario admin logueado."
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

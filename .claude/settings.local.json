@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv run:*)",
+      "Bash(composer create-project:*)",
+      "Bash(php artisan:*)",
+      "Bash(php:*)",
+      "Bash(ls:*)",
+      "Bash(/c/xampp8/php/php.exe artisan:*)",
+      "Bash(/c/xampp8/php/php.exe:*)",
+      "Bash(npx @angular/cli version)",
+      "Bash(ng version:*)",
+      "Bash(npm view:*)",
+      "Bash(npm install:*)",
+      "Bash(curl:*)",
+      "Bash(/c/xampp8/mysql/bin/mysql.exe -u root --host=127.0.0.1 \"tienda-matecocido\" -e \"DELETE FROM categorias WHERE codigo=''test-categ''; DELETE FROM usuarios WHERE email=''test@test.com''; DELETE FROM personal_access_tokens;\")",
+      "Bash(ng build:*)",
+      "Bash(node -e:*)",
+      "Bash(cmd.exe /c \"rmdir /s /q C:\\\\xampp8\\\\htdocs\\\\tienda-matecocido\\\\api-old\")",
+      "Bash(cmd.exe /c \"rmdir /s /q C:\\\\xampp8\\\\htdocs\\\\tienda-matecocido\\\\front-angular-old\")"
+    ]
+  }
+}
