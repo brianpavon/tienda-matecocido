@@ -15,7 +15,7 @@ import { DialogModule } from 'primeng/dialog';
   template: `
     <h2 class="mb-4">Ordenes</h2>
 
-    <p-table [value]="ordenes" [paginator]="true" [rows]="10" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '50rem'}">
+    <p-table [value]="ordenes" [paginator]="true" [rows]="10" styleClass="p-datatable-sm" [scrollable]="true" scrollDirection="horizontal">
       <ng-template #header>
         <tr>
           <th pSortableColumn="id_orden">#</th>
@@ -47,7 +47,7 @@ import { DialogModule } from 'primeng/dialog';
     </p-table>
 
     <!-- Detail dialog -->
-    <p-dialog [(visible)]="detailVisible" header="Detalle de orden" [modal]="true" [style]="{width: '500px'}">
+    <p-dialog [(visible)]="detailVisible" header="Detalle de orden" [modal]="true" [style]="{width: '500px'}" [breakpoints]="{'960px': '90vw'}">
       @if (selectedOrden) {
         <p><strong>Orden #{{ selectedOrden.id_orden }}</strong></p>
         <p>Cliente: {{ selectedOrden.usuario?.email }}</p>
@@ -74,7 +74,7 @@ import { DialogModule } from 'primeng/dialog';
     </p-dialog>
 
     <!-- Estado dialog -->
-    <p-dialog [(visible)]="estadoVisible" header="Cambiar estado" [modal]="true" [style]="{width: '350px'}">
+    <p-dialog [(visible)]="estadoVisible" header="Cambiar estado" [modal]="true" [style]="{width: '350px'}" [breakpoints]="{'960px': '90vw'}">
       <div class="mb-3">
         <label class="form-label">Estado</label>
         <p-select [(ngModel)]="nuevoEstado" [options]="estados" optionLabel="label" optionValue="value" styleClass="w-100" />

@@ -12,7 +12,7 @@ import { UsuariosService } from '../../../core/services/usuarios.service';
     <h2 class="mb-4">Panel de Administracion</h2>
 
     <div class="row g-4 mb-4">
-      <div class="col-md-3">
+      <div class="col-6 col-md-3">
         <div class="stat-card">
           <i class="pi pi-box"></i>
           <div>
@@ -21,7 +21,7 @@ import { UsuariosService } from '../../../core/services/usuarios.service';
           </div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-6 col-md-3">
         <div class="stat-card">
           <i class="pi pi-shopping-cart"></i>
           <div>
@@ -30,7 +30,7 @@ import { UsuariosService } from '../../../core/services/usuarios.service';
           </div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-6 col-md-3">
         <div class="stat-card">
           <i class="pi pi-users"></i>
           <div>
@@ -39,7 +39,7 @@ import { UsuariosService } from '../../../core/services/usuarios.service';
           </div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-6 col-md-3">
         <div class="stat-card">
           <i class="pi pi-dollar"></i>
           <div>
@@ -86,6 +86,14 @@ import { UsuariosService } from '../../../core/services/usuarios.service';
     .admin-table { width: 100%; border-collapse: collapse; }
     .admin-table th { padding: 0.75rem; text-align: left; font-size: 0.875rem; border-bottom: 2px solid #eee; }
     .admin-table td { padding: 0.75rem; border-bottom: 1px solid #f0f0f0; }
+    .card-section { overflow-x: auto; }
+    @media (max-width: 576px) {
+      .stat-card {
+        padding: 1rem;
+        i { font-size: 1.5rem; }
+        h3 { font-size: 1.2rem; }
+      }
+    }
     .badge-estado {
       padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;
       &[data-estado="PENDIENTE"] { background: #fef3c7; color: #92400e; }

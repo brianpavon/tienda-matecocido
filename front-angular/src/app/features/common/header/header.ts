@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { CategoriasService } from '../../../core/services/categorias.service';
@@ -14,14 +14,21 @@ import { AuthService } from '../../../core/services/auth.service';
       <div class="container d-flex justify-content-between align-items-center py-3">
         <a routerLink="/" class="logo">Matecocido</a>
 
-        <nav class="d-flex align-items-center gap-3">
+        <!-- Hamburger button (mobile only) -->
+        <button class="hamburger d-md-none" (click)="toggleMenu()">
+          <i class="pi" [class.pi-bars]="!menuOpen()" [class.pi-times]="menuOpen()"></i>
+        </button>
+
+        <!-- Desktop nav -->
+        <nav class="desktop-nav d-none d-md-flex align-items-center gap-3">
           <a routerLink="/tienda" routerLinkActive="active">Tienda</a>
           @for (cat of categorias; track cat.id_categ) {
             <a [routerLink]="['/tienda/categoria', cat.codigo]" routerLinkActive="active">{{ cat.nombre }}</a>
           }
         </nav>
 
-        <div class="d-flex align-items-center gap-3">
+        <!-- Desktop actions -->
+        <div class="desktop-actions d-none d-md-flex align-items-center gap-3">
           <a routerLink="/cart" class="cart-link">
             <i class="pi pi-shopping-cart"></i>
             @if ((totalItems$ | async); as total) {
@@ -39,6 +46,35 @@ import { AuthService } from '../../../core/services/auth.service';
           }
         </div>
       </div>
+
+      <!-- Mobile menu overlay -->
+      @if (menuOpen()) {
+        <div class="mobile-menu d-md-none">
+          <nav class="d-flex flex-column gap-2 mb-3">
+            <a routerLink="/tienda" routerLinkActive="active" (click)="closeMenu()">Tienda</a>
+            @for (cat of categorias; track cat.id_categ) {
+              <a [routerLink]="['/tienda/categoria', cat.codigo]" routerLinkActive="active" (click)="closeMenu()">{{ cat.nombre }}</a>
+            }
+          </nav>
+          <div class="d-flex align-items-center gap-3">
+            <a routerLink="/cart" class="cart-link" (click)="closeMenu()">
+              <i class="pi pi-shopping-cart"></i>
+              @if ((totalItems$ | async); as total) {
+                <span class="badge">{{ total }}</span>
+              }
+            </a>
+
+            @if (isAuthenticated$ | async) {
+              @if (userRole === 'ADMIN') {
+                <a routerLink="/admin" class="btn-admin" (click)="closeMenu()">Admin</a>
+              }
+              <button class="btn-logout" (click)="onLogout()">Salir</button>
+            } @else {
+              <a routerLink="/auth/login" class="btn-login" (click)="closeMenu()">Ingresar</a>
+            }
+          </div>
+        </div>
+      }
     </header>
   `,
   styles: [`
@@ -55,11 +91,26 @@ import { AuthService } from '../../../core/services/auth.service';
       color: var(--primary-color);
       text-decoration: none;
     }
-    nav a {
+    .hamburger {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-dark);
+      cursor: pointer;
+      padding: 0.25rem;
+    }
+    .desktop-nav a, .mobile-menu nav a {
       color: var(--text-muted);
       text-decoration: none;
       font-size: 0.9rem;
       &:hover, &.active { color: var(--primary-color); }
+    }
+    .mobile-menu {
+      padding: 0 1rem 1rem;
+      border-top: 1px solid #eee;
+      nav a {
+        padding: 0.5rem 0;
+      }
     }
     .cart-link {
       position: relative;
@@ -117,6 +168,7 @@ export class HeaderComponent implements OnInit {
   totalItems$ = this.cartService.totalItems$;
   isAuthenticated$ = this.authService.isAuthenticated$;
   userRole = this.authService.getUserRole();
+  menuOpen = signal(false);
 
   ngOnInit(): void {
     this.categoriasService.getAll().subscribe({
@@ -124,6 +176,14 @@ export class HeaderComponent implements OnInit {
         if (res.success) this.categorias = res.content;
       },
     });
+  }
+
+  toggleMenu(): void {
+    this.menuOpen.update(v => !v);
+  }
+
+  closeMenu(): void {
+    this.menuOpen.set(false);
   }
 
   onLogout(): void {

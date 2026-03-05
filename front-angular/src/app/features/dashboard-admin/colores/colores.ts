@@ -36,7 +36,7 @@ import { InputTextModule } from 'primeng/inputtext';
       </ng-template>
     </p-table>
 
-    <p-dialog [(visible)]="dialogVisible" [header]="editMode ? 'Editar color' : 'Nuevo color'" [modal]="true" [style]="{width: '400px'}">
+    <p-dialog [(visible)]="dialogVisible" [header]="editMode ? 'Editar color' : 'Nuevo color'" [modal]="true" [style]="{width: '400px'}" [breakpoints]="{'960px': '90vw'}">
       <div class="mb-3">
         <label class="form-label">Codigo</label>
         <input pInputText [(ngModel)]="form.codigo" class="w-100" [disabled]="editMode" />

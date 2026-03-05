@@ -46,7 +46,7 @@ import { environment } from '../../../../environments/environment';
             }
           </p>
 
-          <div class="d-flex align-items-center gap-3 mt-4">
+          <div class="d-flex align-items-center flex-wrap gap-3 mt-4">
             <div class="qty-control">
               <button (click)="qty > 1 && qty = qty - 1">-</button>
               <span>{{ qty }}</span>

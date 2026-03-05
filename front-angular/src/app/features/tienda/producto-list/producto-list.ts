@@ -61,6 +61,9 @@ import { environment } from '../../../../environments/environment';
     }
     h5 { font-size: 1rem; margin-bottom: 0.25rem; }
     .price { color: var(--primary-color); font-weight: 600; margin: 0; }
+    @media (max-width: 576px) {
+      .product-img { height: 150px; }
+    }
   `],
 })
 export class ProductoListComponent implements OnInit {

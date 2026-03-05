@@ -17,7 +17,7 @@ import { TagModule } from 'primeng/tag';
       <p-button label="Nuevo producto" icon="pi pi-plus" routerLink="/admin/productos/nuevo" />
     </div>
 
-    <p-table [value]="productos" [paginator]="true" [rows]="10" styleClass="p-datatable-sm" [tableStyle]="{'min-width': '60rem'}">
+    <p-table [value]="productos" [paginator]="true" [rows]="10" styleClass="p-datatable-sm" [scrollable]="true" scrollDirection="horizontal">
       <ng-template #header>
         <tr>
           <th style="width: 60px">Img</th>

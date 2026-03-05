@@ -16,7 +16,7 @@ import { CartService } from '../../../core/services/cart.service';
       } @else {
         <div class="cart-items">
           @for (item of items; track item.id_prod) {
-            <div class="cart-item d-flex align-items-center gap-3 mb-3 p-3">
+            <div class="cart-item d-flex align-items-center flex-wrap gap-3 mb-3 p-3">
               <div class="flex-grow-1">
                 <h5 class="mb-1">{{ item.nombre }}</h5>
                 <p class="mb-0 text-muted">{{ item.precio | currency:'ARS':'symbol':'1.0-0' }} x {{ item.cantidad }}</p>
@@ -32,7 +32,7 @@ import { CartService } from '../../../core/services/cart.service';
           }
         </div>
 
-        <div class="d-flex justify-content-between align-items-center mt-4 p-3" style="background: white; border-radius: 8px;">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-4 p-3" style="background: white; border-radius: 8px;">
           <h4 class="mb-0">Total: {{ total$ | async | currency:'ARS':'symbol':'1.0-0' }}</h4>
           <a routerLink="/checkout" class="btn-checkout">Finalizar compra</a>
         </div>
