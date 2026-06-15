@@ -5,6 +5,9 @@
 
     RewriteEngine On
 
+    # Dejar pasar el challenge de Let's Encrypt (renovacion SSL con docroot symlinkeado)
+    RewriteRule ^\.well-known/ - [L]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
