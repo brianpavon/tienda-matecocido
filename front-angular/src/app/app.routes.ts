@@ -75,6 +75,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/dashboard-admin/colores/colores').then(m => m.ColoresComponent),
       },
       {
+        path: 'gastos',
+        loadComponent: () => import('./features/dashboard-admin/gastos/gastos').then(m => m.GastosComponent),
+      },
+      {
         path: 'ordenes',
         loadComponent: () => import('./features/dashboard-admin/ordenes/ordenes').then(m => m.OrdenesComponent),
       },

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\GastoController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\OrdenController;
 use App\Http\Controllers\ProductoController;
@@ -41,6 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('productos', ProductoController::class)->except(['index', 'show']);
         Route::apiResource('categorias', CategoriaController::class)->except(['index']);
         Route::apiResource('colores', ColorController::class)->except(['index']);
+        Route::apiResource('gastos', GastoController::class);
         Route::get('/usuarios', [UsuarioController::class, 'index']);
         Route::get('/usuarios/{id}', [UsuarioController::class, 'show']);
         Route::put('/usuarios/{id}/toggle-activo', [UsuarioController::class, 'toggleActivo']);

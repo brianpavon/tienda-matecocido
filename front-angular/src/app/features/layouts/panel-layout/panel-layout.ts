@@ -32,6 +32,7 @@ import { AuthService } from '../../../core/services/auth.service';
           <li><a routerLink="/admin/productos" routerLinkActive="active" (click)="closeSidebar()"><i class="pi pi-box"></i> Productos</a></li>
           <li><a routerLink="/admin/categorias" routerLinkActive="active" (click)="closeSidebar()"><i class="pi pi-tags"></i> Categorias</a></li>
           <li><a routerLink="/admin/colores" routerLinkActive="active" (click)="closeSidebar()"><i class="pi pi-palette"></i> Colores</a></li>
+          <li><a routerLink="/admin/gastos" routerLinkActive="active" (click)="closeSidebar()"><i class="pi pi-wallet"></i> Gastos</a></li>
           <li><a routerLink="/admin/ordenes" routerLinkActive="active" (click)="closeSidebar()"><i class="pi pi-shopping-cart"></i> Ordenes</a></li>
           <li><a routerLink="/admin/usuarios" routerLinkActive="active" (click)="closeSidebar()"><i class="pi pi-users"></i> Usuarios</a></li>
         </ul>
@@ -58,7 +59,7 @@ import { AuthService } from '../../../core/services/auth.service';
       left: 0;
       right: 0;
       height: 50px;
-      background: var(--text-dark, #3C2F1E);
+      background: var(--text-dark, #333333);
       color: white;
       display: flex;
       align-items: center;
@@ -85,7 +86,7 @@ import { AuthService } from '../../../core/services/auth.service';
     }
     .sidebar {
       width: 250px;
-      background: var(--text-dark, #3C2F1E);
+      background: var(--text-dark, #333333);
       color: white;
       display: flex;
       flex-direction: column;
