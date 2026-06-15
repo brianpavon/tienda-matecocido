@@ -38,12 +38,12 @@ cd front-angular && npm install && ng serve
 - **Middleware**: ForceJsonResponse (prepend), CheckRole (alias `role`)
 - **Modelos**: Usuario, Producto, Categoria, Color, ProductoImagen, DatosPersonales, Orden, DetalleOrden
 - **Controllers**: Auth, Producto, Categoria, Color, Orden, Usuario, Health
-- **Rutas**: 34 endpoints en routes/api.php (publicas, auth, cliente, admin)
-- **Storage**: Imagenes en storage/app/public/productos/, symlink via artisan storage:link
+- **Rutas**: 29 endpoints en routes/api.php (publicas, auth, cliente, admin)
+- **Storage**: Imagenes en storage/app/public/imgs-productos/{codigo}/, symlink via artisan storage:link
 
 ## Arquitectura Frontend (front-angular/)
 
-- **Angular 20**: Standalone components, zoneless change detection
+- **Angular 20**: Standalone components, lazy loading, change detection con Zone.js (`provideZoneChangeDetection` + eventCoalescing — NO es zoneless)
 - **UI**: PrimeNG 20 (p-table, p-dialog, p-button, p-select, etc.) + Bootstrap 5 grid
 - **Auth**: Interceptor inyecta Bearer token, guards protegen rutas admin
 - **State**: AuthService + CartService (BehaviorSubject + localStorage)
