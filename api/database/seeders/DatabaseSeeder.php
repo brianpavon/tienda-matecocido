@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,14 +11,19 @@ class DatabaseSeeder extends Seeder
 
     /**
      * Seed the application's database.
+     * Orden FK-safe: roles -> usuarios; categorias/colores/productos antes de pivots.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $this->call([
+            RolesSeeder::class,
+            UsuariosSeeder::class,
+            CategoriasSeeder::class,
+            ColoresSeeder::class,
+            ProductosSeeder::class,
+            ProductosCategoriasSeeder::class,
+            ProductosColoresSeeder::class,
+            ProductosImagenesSeeder::class,
         ]);
     }
 }
