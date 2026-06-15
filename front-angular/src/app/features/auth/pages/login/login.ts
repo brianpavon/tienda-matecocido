@@ -57,7 +57,7 @@ import { AuthService } from '../../../../core/services/auth.service';
     }
     .btn-submit {
       background: var(--primary-color);
-      color: white;
+      color: var(--on-primary);
       border: none;
       padding: 0.75rem;
       border-radius: 4px;

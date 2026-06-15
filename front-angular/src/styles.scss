@@ -5,14 +5,17 @@
 // PrimeNG
 @import 'primeicons/primeicons.css';
 
-// Custom variables
+// Custom variables — paleta pastel original (rosa / azul / beige)
 :root {
-  --primary-color: #8B6F47;
-  --primary-dark: #6B5535;
-  --accent-color: #D4A574;
-  --bg-light: #FDF8F3;
-  --text-dark: #3C2F1E;
-  --text-muted: #7A6B5A;
+  --primary-color: #ebc5d2;  // rosa pastel: header, botones, links, precios
+  --primary-dark: #d99ab2;   // hover de botones/links rosa
+  --on-primary: #333333;     // texto sobre fondos rosa (contraste)
+  --accent-color: #bde0f5;   // azul pastel: botón checkout/acción
+  --accent-dark: #9fcdec;    // hover del botón checkout
+  --beige: #f5e9c6;          // fondo de controles de cantidad +/-
+  --bg-light: #ffffff;       // fondo de página
+  --text-dark: #333333;      // texto principal
+  --text-muted: #727272;     // texto secundario / iconos
 }
 
 html, body {

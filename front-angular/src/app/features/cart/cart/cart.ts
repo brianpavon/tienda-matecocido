@@ -47,16 +47,16 @@ import { CartService } from '../../../core/services/cart.service';
     }
     .qty-control {
       display: flex; align-items: center; gap: 0.5rem;
-      button { width: 28px; height: 28px; border: 1px solid #ddd; background: white; border-radius: 4px; cursor: pointer; }
+      button { width: 28px; height: 28px; border: 1px solid #ddd; background: var(--beige); border-radius: 4px; cursor: pointer; }
     }
     .btn-remove { background: none; border: none; color: #dc2626; cursor: pointer; font-size: 1rem; }
     .btn-checkout {
-      background: var(--primary-color);
-      color: white;
+      background: var(--accent-color);
+      color: var(--text-dark);
       padding: 0.6rem 1.5rem;
       border-radius: 4px;
       text-decoration: none;
-      &:hover { background: var(--primary-dark); color: white; }
+      &:hover { background: var(--accent-dark); color: var(--text-dark); }
     }
   `],
 })

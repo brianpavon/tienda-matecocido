@@ -82,8 +82,8 @@ import { AuthService } from '../../../core/services/auth.service';
       &:focus { outline: none; border-color: var(--primary-color); }
     }
     .btn-submit {
-      background: var(--primary-color); color: white; border: none; padding: 0.75rem; border-radius: 4px; font-size: 1rem; cursor: pointer;
-      &:hover { background: var(--primary-dark); }
+      background: var(--accent-color); color: var(--text-dark); border: none; padding: 0.75rem; border-radius: 4px; font-size: 1rem; cursor: pointer;
+      &:hover { background: var(--accent-dark); }
       &:disabled { opacity: 0.6; cursor: not-allowed; }
     }
     .alert-info { background: #eff6ff; color: #1d4ed8; padding: 0.75rem; border-radius: 4px; }

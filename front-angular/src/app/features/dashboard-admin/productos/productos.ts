@@ -59,7 +59,7 @@ import { TagModule } from 'primeng/tag';
   `,
   styles: [`
     .thumb { width: 40px; height: 40px; border-radius: 4px; object-fit: cover; }
-    .thumb-empty { width: 40px; height: 40px; border-radius: 4px; background: #f5f0eb; display: flex; align-items: center; justify-content: center; color: var(--text-muted); }
+    .thumb-empty { width: 40px; height: 40px; border-radius: 4px; background: #f7eef2; display: flex; align-items: center; justify-content: center; color: var(--text-muted); }
   `],
 })
 export class ProductosComponent implements OnInit {

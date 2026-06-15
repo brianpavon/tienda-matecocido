@@ -44,11 +44,11 @@ import { environment } from '../../../../environments/environment';
     }
     .btn-primary-custom {
       background: var(--primary-color);
-      color: white;
+      color: var(--on-primary);
       padding: 0.75rem 2rem;
       border-radius: 4px;
       text-decoration: none;
-      &:hover { background: var(--primary-dark); color: white; }
+      &:hover { background: var(--primary-dark); color: var(--on-primary); }
     }
     .product-card {
       display: block;
@@ -65,7 +65,7 @@ import { environment } from '../../../../environments/environment';
       height: 200px;
       background-size: cover;
       background-position: center;
-      background-color: #f5f0eb;
+      background-color: #f7eef2;
     }
     .no-img {
       display: flex;

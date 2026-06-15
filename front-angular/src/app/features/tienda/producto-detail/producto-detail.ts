@@ -68,19 +68,19 @@ import { environment } from '../../../../environments/environment';
     .main-img { width: 100%; border-radius: 8px; object-fit: cover; max-height: 400px; }
     .thumb { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent; }
     .thumb.active { border-color: var(--primary-color); }
-    .no-img { height: 300px; background: #f5f0eb; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--text-muted); }
+    .no-img { height: 300px; background: #f7eef2; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--text-muted); }
     h1 { font-size: 1.75rem; }
     .price { font-size: 1.5rem; color: var(--primary-color); font-weight: 600; }
     .qty-control {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      button { width: 32px; height: 32px; border: 1px solid #ddd; background: white; border-radius: 4px; cursor: pointer; font-size: 1.1rem; }
+      button { width: 32px; height: 32px; border: 1px solid #ddd; background: var(--beige); border-radius: 4px; cursor: pointer; font-size: 1.1rem; }
       span { font-weight: 600; min-width: 20px; text-align: center; }
     }
     .btn-add {
       background: var(--primary-color);
-      color: white;
+      color: var(--on-primary);
       border: none;
       padding: 0.6rem 1.5rem;
       border-radius: 4px;

@@ -15,11 +15,11 @@ import { RouterLink } from '@angular/router';
   styles: [`
     .btn-home {
       background: var(--primary-color);
-      color: white;
+      color: var(--on-primary);
       padding: 0.5rem 1.5rem;
       border-radius: 4px;
       text-decoration: none;
-      &:hover { background: var(--primary-dark); color: white; }
+      &:hover { background: var(--primary-dark); color: var(--on-primary); }
     }
   `],
 })

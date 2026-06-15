@@ -50,7 +50,7 @@ import { environment } from '../../../../environments/environment';
       height: 200px;
       background-size: cover;
       background-position: center;
-      background-color: #f5f0eb;
+      background-color: #f7eef2;
     }
     .no-img {
       display: flex;

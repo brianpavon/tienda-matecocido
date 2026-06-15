@@ -122,7 +122,7 @@ import { AuthService } from '../../../core/services/auth.service';
       top: -8px;
       right: -10px;
       background: var(--primary-color);
-      color: white;
+      color: var(--on-primary);
       font-size: 0.7rem;
       width: 18px;
       height: 18px;
@@ -139,8 +139,8 @@ import { AuthService } from '../../../core/services/auth.service';
     }
     .btn-login {
       background: var(--primary-color);
-      color: white;
-      &:hover { background: var(--primary-dark); color: white; }
+      color: var(--on-primary);
+      &:hover { background: var(--primary-dark); color: var(--on-primary); }
     }
     .btn-admin {
       background: var(--text-dark);

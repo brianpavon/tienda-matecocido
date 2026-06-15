@@ -13,7 +13,7 @@ import { Component } from '@angular/core';
   `,
   styles: [`
     .footer {
-      background: var(--text-dark, #3C2F1E);
+      background: var(--text-dark, #333333);
       color: rgba(255,255,255,0.7);
       margin-top: auto;
       small { opacity: 0.6; }
